@@ -1,3 +1,9 @@
 export default function Home() {
-	return <p>helloworld</p>;
+	return(
+	<>
+		<h1>helloworld</h1>
+		<p>helloworld</p>
+	</>
+	)
 }
+	
