@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# メモアプリ作成用リポジトリ
 
-## Getting Started
+**フロントエンド開発環境**
+- TypeScript
+- Next.js
+- MUI
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+**バックエンド用のAPIメモ**
 ```
+Email: memo-api@example.com
+Username: admin-user
+pass:**********
+```
+**実装されているバックエンド**
+- Python
+- Django
+- MySQL
+- AWS(EC2)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**リポジトリ**は[こちら](https://github.com/dende-h/sampleMemoApi)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### How to use
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+**管理画面ログイン**
+http://sampleMemoApi-239289635.ap-northeast-1.elb.amazonaws.com/admin
 
-## Learn More
+ログインするとデータベースの操作をブラウザ画面で直接行うことができる。
+ユーザーを追加することも可能
 
-To learn more about Next.js, take a look at the following resources:
+**API仕様書の閲覧**
+http://sampleMemoApi-239289635.ap-northeast-1.elb.amazonaws.com/schema/swagger-ui
+http://sampleMemoApi-239289635.ap-northeast-1.elb.amazonaws.com/schema/redoc
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```auth/token/```で取得したアクセストークンをAuthorizeで入力しておくと、実際リクエストしてレスポンスの確認が可能
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+この仕様書を見ながらメモアプリ機能を実装していく
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### メモアプリ機能要件
+- ユーザーの新規登録機能
+- ユーザーのログイン認証機能
+- メモの登録(Create)
+- メモの一覧を表示(Read)
+- メモの編集(Update)
+- メモの削除(Delete)
+- completed_flagは使っても使わなくてもよい
