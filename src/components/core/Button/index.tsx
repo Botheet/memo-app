@@ -7,10 +7,20 @@ type PrimaryButtonProps = ButtonProps & {
 	isDisabled?: boolean;
 	index?: number | null;
 	icon?: ReactNode;
+	color?: string;
 };
 
 export const PrimaryButton: FC<PrimaryButtonProps> = (props) => {
-	const { onClickButton, buttonText, isDisabled = false, index = null, icon, ...other } = props; //分割代入。{}内をpropsで展開
+	const {
+		onClickButton,
+		buttonText,
+		isDisabled = false,
+		index = null,
+		size,
+		icon,
+		color = "primary",
+		...other
+	} = props; //分割代入。{}内をpropsで展開
 	return (
 		<>
 			<Button
@@ -19,7 +29,9 @@ export const PrimaryButton: FC<PrimaryButtonProps> = (props) => {
 					onClickButton(index !== null && index);
 				}} //indexがぬるじゃなかったら引数がここに入る
 				variant="contained"
+				size={size}
 				disabled={isDisabled}
+				color={color}
 				endIcon={icon} //propsにiconを追加。→各ボタンにiconを渡せる
 				sx={{
 					ml: 2
