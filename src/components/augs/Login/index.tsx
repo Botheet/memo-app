@@ -2,8 +2,6 @@
 
 import axios from "axios";
 import { useState } from "react";
-import { SubmitButton } from "@/components/augs/Login/SubmitButton";
-
 import LoginTwoToneIcon from "@mui/icons-material/LoginTwoTone";
 import { Button, Divider, IconButton, Link, Paper, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
@@ -18,8 +16,6 @@ import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { Margin } from "@mui/icons-material";
-
 import Image from "next/image"; // Next.jsのImageコンポーネントをインポート
 
 // interface LoginFormProps {
@@ -40,6 +36,19 @@ export const Login = () => {
 			primary: {
 				main: "#ffab91",
 				contrastText: "#fff"
+			}
+		}
+	});
+
+	// カスタムテーマを作成
+	const inputTheme = createTheme({
+		components: {
+			MuiInputLabel: {
+				styleOverrides: {
+					root: {
+						color: "color" // ラベルの色を緑に変更
+					}
+				}
 			}
 		}
 	});
@@ -68,13 +77,13 @@ export const Login = () => {
 					noValidate
 					autoComplete="off"
 				>
-					<Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
+					{/* <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
 						<Typography variant="h3" component="h2">
 							MEMOアプリ
 						</Typography>
 						<Typography>ログインフォーム</Typography>
-					</Box>
-					<Box mt={6}>
+					</Box> */}
+					<Box mt={14}>
 						<Typography sx={{ textAlign: "center" }} variant="h4" color={"white"} margin={1}>
 							MEMO app
 						</Typography>
@@ -84,38 +93,42 @@ export const Login = () => {
 								<Grid container spacing={1} alignItems="center" justifyContent="center" direction="column">
 									{/* Email 入力フィールド */}
 									<Grid item xs={10}>
-										<TextField
-											label="Email"
-											type="email"
-											variant="outlined"
-											value={email}
-											onChange={(e) => setEmail(e.target.value)}
-											size="small"
-										/>
+										<ThemeProvider theme={inputTheme}>
+											<TextField
+												label="Email"
+												type="email"
+												variant="outlined"
+												value={email}
+												onChange={(e) => setEmail(e.target.value)}
+												size="small"
+											/>
+										</ThemeProvider>
 									</Grid>
 									{/* Password 入力フィールド */}
 									<Grid item xs={12}>
-										<TextField
-											label="Password"
-											type={showPassword ? "text" : "password"}
-											variant="outlined"
-											value={password}
-											onChange={(e) => setPassword(e.target.value)}
-											InputProps={{
-												endAdornment: (
-													<InputAdornment position="end">
-														<IconButton
-															aria-label="toggle password visibility"
-															onClick={togglePasswordVisibility}
-															edge="end"
-														>
-															{showPassword ? <VisibilityOff /> : <Visibility />}
-														</IconButton>
-													</InputAdornment>
-												)
-											}}
-											size="small"
-										/>
+										<ThemeProvider theme={inputTheme}>
+											<TextField
+												label="Password"
+												type={showPassword ? "text" : "password"}
+												variant="outlined"
+												value={password}
+												onChange={(e) => setPassword(e.target.value)}
+												InputProps={{
+													endAdornment: (
+														<InputAdornment position="end">
+															<IconButton
+																aria-label="toggle password visibility"
+																onClick={togglePasswordVisibility}
+																edge="end"
+															>
+																{showPassword ? <VisibilityOff /> : <Visibility />}
+															</IconButton>
+														</InputAdornment>
+													)
+												}}
+												size="small"
+											/>
+										</ThemeProvider>
 									</Grid>
 									{/* ログインボタン */}
 									<Grid xs={12} md={15} sx={{ marginTop: 1 }} container justifyContent="center">
