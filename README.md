@@ -1,17 +1,21 @@
 ## メモアプリ作成用リポジトリ
 
 **フロントエンド開発環境**
+
 - TypeScript
 - Next.js
 - MUI
 
 **バックエンド用のAPIメモ**
+
 ```
 Email: memo-api@example.com
 Username: admin-user
 pass:**********
 ```
+
 **実装されているバックエンド**
+
 - Python
 - Django
 - MySQL
@@ -31,11 +35,12 @@ http://sampleMemoApi-239289635.ap-northeast-1.elb.amazonaws.com/admin
 http://sampleMemoApi-239289635.ap-northeast-1.elb.amazonaws.com/schema/swagger-ui
 http://sampleMemoApi-239289635.ap-northeast-1.elb.amazonaws.com/schema/redoc
 
-```auth/token/```で取得したアクセストークンをAuthorizeで入力しておくと、実際リクエストしてレスポンスの確認が可能
+`auth/token/`で取得したアクセストークンをAuthorizeで入力しておくと、実際リクエストしてレスポンスの確認が可能
 
 この仕様書を見ながらメモアプリ機能を実装していく
 
 ### メモアプリ機能要件
+
 - ユーザーの新規登録機能
 - ユーザーのログイン認証機能
 - メモの登録(Create)
@@ -45,7 +50,9 @@ http://sampleMemoApi-239289635.ap-northeast-1.elb.amazonaws.com/schema/redoc
 - completed_flagは使っても使わなくてもよい
 
 ### プロジェクトルール
+
 **命名規則**
+
 - appディレクトリ配下のディレクトリ名はキャメルケース
 - コンポーネント名、コンポーネント配下のディレクトリ名はパスカルケース
 - 通常の関数や変数名はキャメルケース
@@ -53,8 +60,8 @@ http://sampleMemoApi-239289635.ap-northeast-1.elb.amazonaws.com/schema/redoc
 - カスタムフックはuseで始まるキャメルケース
 - 命名にスネークケース、ケバブケースは禁止
 
-
 **ディレクトリ構成**
+
 ```tree
 ├── next-env.d.ts 基本いじらない
 ├── next.config.js 基本いじらない
@@ -75,6 +82,7 @@ http://sampleMemoApi-239289635.ap-northeast-1.elb.amazonaws.com/schema/redoc
 ```
 
 **コーディングルール(ここは随時話し合いながら変えていく)**
+
 - /src/app
   - ページコンポーネントを置く
   - /dashboard/page.tsx というファイルを設置すると `http://localhost:3000/dashboard` というページに展開される
