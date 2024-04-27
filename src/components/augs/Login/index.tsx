@@ -17,15 +17,36 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Image from "next/image"; // Next.jsのImageコンポーネントをインポート
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 // interface LoginFormProps {
 // 	onSubmit: (email: string, password: string) => void;
 // }
 
+type LoginFormBody = { email: string; password: string };
+
+const schema = z
+	.object({
+		email: z.string().email("正しい形式で入力してください"),
+		password: z
+			.string()
+			.min(8, "パスワードは8文字以上12文字以下で使用してください")
+			.max(12, "パスワードは8文字以上12文字以下で使用してください")
+	})
+	.required();
+
 export const Login = () => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
+	// const [email, setEmail] = useState("");　 fooksで管理してくれるのでいらない
+	// const [password, setPassword] = useState(""); fooksで管理してくれるのでいらない
 	const [showPassword, setShowPassword] = useState(false);
+
+	const {
+		handleSubmit,
+		register,
+		formState: { errors }
+	} = useForm<LoginFormBody>({ resolver: zodResolver(schema), mode: "onBlur" });
 
 	const togglePasswordVisibility = () => {
 		setShowPassword(!showPassword);
@@ -61,12 +82,17 @@ export const Login = () => {
 		color: theme.palette.text.secondary
 	}));
 
+	const onSubmit = ({ email, password }) => {
+		console.log({ email, password });
+	};
+
 	return (
 		<Box style={{ position: "fixed", top: "0", left: "0", width: "100%", height: "100%", zIndex: "-1" }}>
 			<Image src="/ログインページ背景.png" layout="fill" objectFit="cover" alt={""} />
 			<Box style={{ position: "relative", minHeight: "100vh" }}>
 				<Box
 					component="form"
+					onSubmit={handleSubmit(onSubmit)}
 					sx={{
 						"& .MuiTextField-root": { m: 1, width: "25ch" },
 						display: "flex",
@@ -95,11 +121,14 @@ export const Login = () => {
 									<Grid item xs={10}>
 										<ThemeProvider theme={inputTheme}>
 											<TextField
+												{...register("email")}
+												error={Boolean(errors.email)}
+												helperText={errors.email?.message}
 												label="Email"
 												type="email"
 												variant="outlined"
-												value={email}
-												onChange={(e) => setEmail(e.target.value)}
+												// value={email} fooksで管理してくれるのでいらない
+												// onChange={(e) => setEmail(e.target.value)} fooksで管理してくれるのでいらない
 												size="small"
 											/>
 										</ThemeProvider>
@@ -108,11 +137,14 @@ export const Login = () => {
 									<Grid item xs={12}>
 										<ThemeProvider theme={inputTheme}>
 											<TextField
+												{...register("password")}
+												error={Boolean(errors.password)}
+												helperText={errors.password?.message}
 												label="Password"
 												type={showPassword ? "text" : "password"}
 												variant="outlined"
-												value={password}
-												onChange={(e) => setPassword(e.target.value)}
+												// value={password} fooksで管理してくれるのでいらない
+												// onChange={(e) => setPassword(e.target.value)} fooksで管理してくれるのでいらない
 												InputProps={{
 													endAdornment: (
 														<InputAdornment position="end">
@@ -139,9 +171,7 @@ export const Login = () => {
 												icon={<LoginTwoToneIcon />}
 												buttonText="ログイン"
 												color="info"
-												onClickButton={function (number: number): void {
-													throw new Error("Function not implemented.");
-												}}
+												type="submit"
 											/>
 										</ThemeProvider>
 									</Grid>
@@ -165,9 +195,7 @@ export const Login = () => {
 											color="success"
 											icon={<AccountCircleIcon />}
 											buttonText="アカウントを新規作成"
-											onClickButton={function (number: number): void {
-												throw new Error("Function not implemented.");
-											}}
+											type="submit"
 										/>
 									</ThemeProvider>
 								</Grid>
