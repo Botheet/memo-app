@@ -12,10 +12,10 @@ export const theme = createTheme({
 		},
 		error: {
 			main: "#dc143c"
-		},
-		info: {
-			main: "#00bfff"
 		}
+		// info: {
+		// 	main: "#00bfff"
+		// }
 		// text: {
 		// 	primary:
 		// },
