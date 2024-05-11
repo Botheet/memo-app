@@ -17,5 +17,6 @@
 	"editor.renderLineHighlight": "none",
 	"editor.tabSize": 2,
 	"editor.cursorBlinking": "expand",
-	"typescript.tsdk": "node_modules\\typescript\\lib"
+	"typescript.tsdk": "node_modules\\typescript\\lib",
+	"cSpell.words": ["augs"]
 }

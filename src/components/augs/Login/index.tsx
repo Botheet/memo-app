@@ -157,9 +157,9 @@ export const Login = () => {
 								<Divider variant="middle" sx={{ my: 2 }} />
 
 								{/* 新規作成ボタン */}
-								<Grid xs={1} md={12} sx={{ marginTop: 1 }} container justifyContent="center">
+								<Grid xs={1} md={15} sx={{ marginTop: 1 }} container justifyContent="center">
 									<Button variant="contained" size="large" color="success" type="submit" sx={{ width: "250px" }}>
-										アカウントを新規作成
+										アカウント新規作成
 										<AccountCircleIcon />
 									</Button>
 								</Grid>
