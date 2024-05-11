@@ -5,7 +5,7 @@ import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import Link from "next/link";
-import { AccountIcon } from "@/components/core/Icons/avatar";
+import { AccountIcon } from "@/components/core/Icons/accountIcon";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 
 // アカウントアイコンとプルダウンメニューのコンポーネント
