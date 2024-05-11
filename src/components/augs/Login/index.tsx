@@ -9,9 +9,7 @@ import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import InputAdornment from "@mui/material/InputAdornment";
-import { PrimaryButton } from "@/components/core/Button";
-import { createTheme, styled } from "@mui/material/styles";
-import { ThemeProvider } from "@mui/material/styles";
+import { createTheme, styled, ThemeProvider } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -20,10 +18,6 @@ import Image from "next/image"; // Next.jsのImageコンポーネントをイン
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-
-// interface LoginFormProps {
-// 	onSubmit: (email: string, password: string) => void;
-// }
 
 type LoginFormBody = { email: string; password: string };
 
@@ -38,8 +32,6 @@ const schema = z
 	.required();
 
 export const Login = () => {
-	// const [email, setEmail] = useState("");　 fooksで管理してくれるのでいらない
-	// const [password, setPassword] = useState(""); fooksで管理してくれるのでいらない
 	const [showPassword, setShowPassword] = useState(false);
 
 	const {
@@ -52,22 +44,13 @@ export const Login = () => {
 		setShowPassword(!showPassword);
 	};
 
-	const colorTheme = createTheme({
-		palette: {
-			primary: {
-				main: "#ffab91",
-				contrastText: "#fff"
-			}
-		}
-	});
-
 	// カスタムテーマを作成
 	const inputTheme = createTheme({
 		components: {
 			MuiInputLabel: {
 				styleOverrides: {
 					root: {
-						color: "color" // ラベルの色を緑に変更
+						color: "color" // ラベルの色
 					}
 				}
 			}
@@ -103,12 +86,6 @@ export const Login = () => {
 					noValidate
 					autoComplete="off"
 				>
-					{/* <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column" }}>
-						<Typography variant="h3" component="h2">
-							MEMOアプリ
-						</Typography>
-						<Typography>ログインフォーム</Typography>
-					</Box> */}
 					<Box mt={14}>
 						<Typography sx={{ textAlign: "center" }} variant="h4" color={"white"} margin={1}>
 							MEMO app
@@ -127,12 +104,11 @@ export const Login = () => {
 												label="Email"
 												type="email"
 												variant="outlined"
-												// value={email} fooksで管理してくれるのでいらない
-												// onChange={(e) => setEmail(e.target.value)} fooksで管理してくれるのでいらない
 												size="small"
 											/>
 										</ThemeProvider>
 									</Grid>
+
 									{/* Password 入力フィールド */}
 									<Grid item xs={12}>
 										<ThemeProvider theme={inputTheme}>
@@ -143,8 +119,6 @@ export const Login = () => {
 												label="Password"
 												type={showPassword ? "text" : "password"}
 												variant="outlined"
-												// value={password} fooksで管理してくれるのでいらない
-												// onChange={(e) => setPassword(e.target.value)} fooksで管理してくれるのでいらない
 												InputProps={{
 													endAdornment: (
 														<InputAdornment position="end">
@@ -162,18 +136,13 @@ export const Login = () => {
 											/>
 										</ThemeProvider>
 									</Grid>
+
 									{/* ログインボタン */}
-									<Grid xs={12} md={15} sx={{ marginTop: 1 }} container justifyContent="center">
-										<ThemeProvider theme={colorTheme}>
-											<PrimaryButton
-												fullWidth
-												size="large"
-												icon={<LoginTwoToneIcon />}
-												buttonText="ログイン"
-												color="info"
-												type="submit"
-											/>
-										</ThemeProvider>
+									<Grid xs={12} md={15} sx={{ marginTop: 2 }} container justifyContent="center">
+										<Button variant="contained" size="large" color="info" type="submit" sx={{ width: "245px" }}>
+											ログイン
+											<LoginTwoToneIcon />
+										</Button>
 									</Grid>
 								</Grid>
 								<Box mt={1} mb={2} sx={{ textAlign: "center", marginTop: 2 }}>
@@ -183,21 +152,16 @@ export const Login = () => {
 										</Link>
 									</Typography>
 								</Box>
+
 								{/* 区切り線 */}
 								<Divider variant="middle" sx={{ my: 2 }} />
 
-								{/* ログインボタン */}
-								<Grid xs={1} md={15} sx={{ marginTop: 1 }} container justifyContent="center">
-									<ThemeProvider theme={colorTheme}>
-										<PrimaryButton
-											fullWidth
-											size="large"
-											color="success"
-											icon={<AccountCircleIcon />}
-											buttonText="アカウントを新規作成"
-											type="submit"
-										/>
-									</ThemeProvider>
+								{/* 新規作成ボタン */}
+								<Grid xs={1} md={12} sx={{ marginTop: 1 }} container justifyContent="center">
+									<Button variant="contained" size="large" color="success" type="submit" sx={{ width: "250px" }}>
+										アカウントを新規作成
+										<AccountCircleIcon />
+									</Button>
 								</Grid>
 							</CardContent>
 						</Card>
