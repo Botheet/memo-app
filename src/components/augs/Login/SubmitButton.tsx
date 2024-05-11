@@ -2,7 +2,7 @@ import Button from "@mui/material/Button";
 import { createTheme } from "@mui/material/styles";
 
 export const SubmitButton = (props) => {
-	const { onClickButton, buttonText = "", buttonColor = "primary", isDisabled = false, index = null, icon } = props; //分割代入。{}内をpropsで展開
+	const { onClickButton, buttonText = "", buttonColor = "success", isDisabled = false, index = null, icon } = props; //分割代入。{}内をpropsで展開
 	return (
 		<>
 			<Button
