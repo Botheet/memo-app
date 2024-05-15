@@ -3,7 +3,7 @@
 import axios from "axios";
 import { useState } from "react";
 import LoginTwoToneIcon from "@mui/icons-material/LoginTwoTone";
-import { Button, Divider, IconButton, Link, Paper, Typography } from "@mui/material";
+import { Button, Divider, IconButton, Paper, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
@@ -18,16 +18,14 @@ import Image from "next/image"; // Next.jsのImageコンポーネントをイン
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import Link from "next/link";
 
 type LoginFormBody = { email: string; password: string };
 
 const schema = z
 	.object({
 		email: z.string().email("正しい形式で入力してください"),
-		password: z
-			.string()
-			.min(8, "パスワードは8文字以上12文字以下で使用してください")
-			.max(12, "パスワードは8文字以上12文字以下で使用してください")
+		password: z.string().min(8, "パスワードは8文字以上12文字以下です").max(12, "パスワードは8文字以上12文字以下です")
 	})
 	.required();
 
@@ -70,14 +68,14 @@ export const Login = () => {
 	};
 
 	return (
-		<Box style={{ position: "fixed", top: "0", left: "0", width: "100%", height: "100%", zIndex: "-1" }}>
-			<Image src="/ログインページ背景.png" layout="fill" objectFit="cover" alt={""} />
-			<Box style={{ position: "relative", minHeight: "100vh" }}>
+		<Box>
+			<Image src="/ログインページ背景.png" fill objectFit="cover" alt={""} />
+			<Box style={{ position: "relative" }}>
 				<Box
 					component="form"
 					onSubmit={handleSubmit(onSubmit)}
 					sx={{
-						"& .MuiTextField-root": { m: 1, width: "25ch" },
+						// "& .MuiTextField-root": { m: 1, width: "25ch" },
 						display: "flex",
 						justifyContent: "center",
 						alignItems: "center",
@@ -90,12 +88,12 @@ export const Login = () => {
 						<Typography sx={{ textAlign: "center" }} variant="h4" color={"white"} margin={1}>
 							MEMO app
 						</Typography>
-						<Card sx={{ backgroundColor: "rgba(255,255,255,1)" }}>
+						<Card sx={{ backgroundColor: "rgba(255,255,255,1)", maxWidth: 280, maxHeightheight: 10 }}>
 							<CardContent sx={{ textAlign: "center" }}>
-								<Typography>MEMOへログイン</Typography>
 								<Grid container spacing={1} alignItems="center" justifyContent="center" direction="column">
+									<Typography>MEMOへログイン</Typography>
 									{/* Email 入力フィールド */}
-									<Grid item xs={10}>
+									<Box display="flex" flexDirection={"column"} gap={3}>
 										<ThemeProvider theme={inputTheme}>
 											<TextField
 												{...register("email")}
@@ -106,12 +104,7 @@ export const Login = () => {
 												variant="outlined"
 												size="small"
 											/>
-										</ThemeProvider>
-									</Grid>
-
-									{/* Password 入力フィールド */}
-									<Grid item xs={12}>
-										<ThemeProvider theme={inputTheme}>
+											{/* Password 入力フィールド */}
 											<TextField
 												{...register("password")}
 												error={Boolean(errors.password)}
@@ -135,10 +128,10 @@ export const Login = () => {
 												size="small"
 											/>
 										</ThemeProvider>
-									</Grid>
+									</Box>
 
 									{/* ログインボタン */}
-									<Grid xs={12} md={15} sx={{ marginTop: 2 }} container justifyContent="center">
+									<Grid xs={12} md={15} sx={{ marginTop: 3 }} container justifyContent="center">
 										<Button variant="contained" size="large" color="info" type="submit" sx={{ width: "245px" }}>
 											ログイン
 											<LoginTwoToneIcon />
@@ -147,8 +140,10 @@ export const Login = () => {
 								</Grid>
 								<Box mt={1} mb={2} sx={{ textAlign: "center", marginTop: 2 }}>
 									<Typography variant="caption" display="block" gutterBottom>
-										<Link href="#" underline="hover" color={"navy"}>
+										<Link href="#" color={"navy"}>
+											{/* <Typography underline="hover"> */}
 											{"パスワードを忘れた場合はこちら"}
+											{/* </Typography> */}
 										</Link>
 									</Typography>
 								</Box>
@@ -157,7 +152,7 @@ export const Login = () => {
 								<Divider variant="middle" sx={{ my: 2 }} />
 
 								{/* 新規作成ボタン */}
-								<Grid xs={1} md={15} sx={{ marginTop: 1 }} container justifyContent="center">
+								<Grid xs={12} md={15} sx={{ marginTop: 1 }} container justifyContent="center">
 									<Button variant="contained" size="large" color="success" type="submit" sx={{ width: "250px" }}>
 										アカウント新規作成
 										<AccountCircleIcon />

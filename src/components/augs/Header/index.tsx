@@ -9,19 +9,20 @@ import { AccountIcon } from "@/components/core/Icons/accountIcon";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
 
 // アカウントアイコンとプルダウンメニューのコンポーネント
+type HeaderProps = { children: React.ReactNode };
 
-const Header: React.FC = () => {
+const Header: React.FC<HeaderProps> = ({ children }) => {
 	// ログイン状態やアカウント情報によって表示を変える処理などを追加する必要があります
 
 	return (
-		<Box sx={{ flexGrow: 1 }}>
-			<AppBar position="static" sx={{ backgroundColor: "#e6e6e6", boxShadow: "none" }}>
-				<Toolbar sx={{ minHeight: 50 }}>
+		<Box>
+			<AppBar position="fixed" sx={{ backgroundColor: "rgba(50, 230, 230, 0.2)" }}>
+				<Toolbar sx={{ minHeight: 5, maxHeight: 5, width: "100%", flexWrap: "nowrap" }}>
 					{/* ページアイコン */}
-					<Link href="/page.tsx">
+					<Link href="/">
 						{/*最終的にここがトップページ*/}
 						{/* ロゴ */}
-						<Avatar alt="Logo" src="/memoIcon.png" sx={{ width: 50, height: 50, marginRight: 2 }} />
+						<Avatar alt="Logo" src="/memoIcon.png" sx={{ width: 35, height: 35, marginRight: 2 }} />
 					</Link>
 					{/* ヘッダータイトル */}
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -31,20 +32,17 @@ const Header: React.FC = () => {
 					{/* ログイン / 新規登録リンク */}
 					<nav>
 						<p>
-							<Link href="/login">
-								<a>*</a>
-							</Link>
+							<Link href="/login">ログイン</Link>
 						</p>
 						<p>
-							<Link href="/signup">
-								<a>アカウント新規登録</a>
-							</Link>
+							<Link href="/signup">アカウント新規登録</Link>
 						</p>
 					</nav>
 					{/* アカウントアイコンとプルダウンメニュー */}
 					<AccountIcon />
 				</Toolbar>
 			</AppBar>
+			{children}
 		</Box>
 	);
 };

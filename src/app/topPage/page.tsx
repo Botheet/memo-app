@@ -1,13 +1,8 @@
-import Header from "@/components/augs/topHeder/heder";
+import Header from "@/components/augs/Header";
 import React from "react";
 
 const Home: React.FC = () => {
-	return (
-		<div>
-			<Header />
-			{/* ここにホームページのコンテンツを記述 */}
-		</div>
-	);
+	return <div>{/* ここにホームページのコンテンツを記述 */}</div>;
 };
 
 export default Home;
