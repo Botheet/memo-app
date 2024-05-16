@@ -1,4 +1,3 @@
-// pages/index.tsx
 import React from "react";
 import { Container, Typography, Button, Stack } from "@mui/material";
 import { styled } from "@mui/system";

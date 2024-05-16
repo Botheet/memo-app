@@ -82,8 +82,10 @@ export const LoginFormCard = () => {
 				<Button variant="contained" size="large" color="info" type="submit" endIcon={<LoginTwoToneIcon />}>
 					ログイン
 				</Button>
-				<Link href="#" color="navy">
-					<Typography fontSize="12px">パスワードを忘れた場合はこちら</Typography>
+				<Link href="/fogot-password">
+					<Typography fontSize="12px" color="navy">
+						パスワードを忘れた場合はこちら
+					</Typography>
 				</Link>
 				<Divider variant="middle" />
 				<Button variant="contained" size="large" color="success" endIcon={<AccountCircleIcon />}>
