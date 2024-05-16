@@ -5,8 +5,8 @@ import React from "react";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
 import Link from "next/link";
-import { AccountIcon } from "@/components/core/Icons/accountIcon";
 import { AppBar, Box, Toolbar, Typography } from "@mui/material";
+import DrawerMenuIcon from "@/components/core/DrawerMenuIcon";
 
 // アカウントアイコンとプルダウンメニューのコンポーネント
 type HeaderProps = { children: React.ReactNode };
@@ -16,13 +16,13 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
 
 	return (
 		<Box>
-			<AppBar position="fixed" sx={{ backgroundColor: "rgba(50, 230, 230, 0.2)" }}>
-				<Toolbar sx={{ minHeight: 5, maxHeight: 5, width: "100%", flexWrap: "nowrap" }}>
+			<AppBar position="fixed" sx={{ backgroundColor: "rgba(2, 2, 2, 0)", boxShadow: "none", marginTop: 0 }}>
+				<Toolbar sx={{ minHeight: 2, maxHeight: 3, width: "100%", flexWrap: "nowrap" }}>
 					{/* ページアイコン */}
 					<Link href="/">
 						{/*最終的にここがトップページ*/}
 						{/* ロゴ */}
-						<Avatar alt="Logo" src="/memoIcon.png" sx={{ width: 35, height: 35, marginRight: 2 }} />
+						<Avatar alt="Logo" src="/memoIcon.png" sx={{ width: 35, height: 30, marginRight: 2, marginTop: 1 }} />
 					</Link>
 					{/* ヘッダータイトル */}
 					<Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
@@ -30,16 +30,11 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
 					</Typography>
 
 					{/* ログイン / 新規登録リンク */}
-					<nav>
-						<p>
-							<Link href="/login">ログイン</Link>
-						</p>
-						<p>
-							<Link href="/signup">アカウント新規登録</Link>
-						</p>
-					</nav>
+
 					{/* アカウントアイコンとプルダウンメニュー */}
-					<AccountIcon />
+					<Box marginRight={3}>
+						<DrawerMenuIcon />
+					</Box>
 				</Toolbar>
 			</AppBar>
 			{children}
