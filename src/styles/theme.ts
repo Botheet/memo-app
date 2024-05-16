@@ -1,6 +1,19 @@
 import { createTheme } from "@mui/material";
 
 export const theme = createTheme({
+	components: {
+		MuiCssBaseline: {
+			styleOverrides: {
+				header: { padding: "0 !important" },
+				body: {
+					wordWrap: "break-word",
+					wordBreak: "break-all",
+					padding: "0 !important",
+					margin: "0 !important"
+				}
+			}
+		}
+	},
 	palette: {
 		primary: {
 			main: "#fff9cc",
@@ -36,8 +49,8 @@ export const theme = createTheme({
 		// 	main:
 		// 	contrastText:
 		// }
+	},
+	typography: {
+		fontFamily: "Inter, sans-serif"
 	}
-	// typography: {
-	// 	fontFamily: "Inter, sans-serif"
-	// }
 });
