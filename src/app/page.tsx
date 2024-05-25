@@ -2,6 +2,9 @@
 
 import { Home } from "@/components/augs/Home";
 
-export default function Page() {
-	return <Home />;
+import { TopPage } from "./topPage/page";
+
+//topPage.tsxを埋め込む
+export default function LoginPage() {
+	return <TopPage />;
 }

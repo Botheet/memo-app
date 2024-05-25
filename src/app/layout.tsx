@@ -5,6 +5,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "@/styles/theme";
+import Header from "@/components/augs/Header";
 import { CssBaseline } from "@mui/material";
 
 export default function RootLayout({
@@ -17,7 +18,7 @@ export default function RootLayout({
 			<body>
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
-					{children}
+					<Header>{children}</Header>
 				</ThemeProvider>
 			</body>
 		</html>
