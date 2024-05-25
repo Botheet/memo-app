@@ -23,9 +23,13 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import HomeIcon from "@mui/icons-material/Home"; // インポートするアイコン
+import LanguageIcon from "@mui/icons-material/Language";
+import InfoIcon from "@mui/icons-material/Info";
 import MenuIcon from "@mui/icons-material/Menu";
+import ContactMailIcon from "@mui/icons-material/ContactMail";
+import LoginIcon from "@mui/icons-material/Login";
+import LoginLogoutButton from "../LoginLogoutButton";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -49,6 +53,10 @@ const DrawerMenuIcon: React.FC = () => {
 		setState({ ...state, [anchor]: open });
 	};
 
+	const iconListMenu = [<HomeIcon />, <InfoIcon />, <LanguageIcon />, <ContactMailIcon />];
+	const iconListAccount = [<LoginIcon />, <LanguageIcon />, <InfoIcon />, <ContactMailIcon />];
+	//※※※ログインとログアウトを切り替えるコンポーネントを作成してインポートする※※※
+
 	const list = (anchor: Anchor) => (
 		<Box
 			sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 200, backgroundColor: "rgba(0, 0, 0, 0.1)" }}
@@ -57,10 +65,10 @@ const DrawerMenuIcon: React.FC = () => {
 			onKeyDown={toggleDrawer(anchor, false)}
 		>
 			<List>
-				{["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
+				{["ホーム", "", "", ""].map((text, index) => (
 					<ListItem key={text} disablePadding>
 						<ListItemButton>
-							<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+							<ListItemIcon>{iconListMenu[index]}</ListItemIcon>
 							<ListItemText primary={text} />
 						</ListItemButton>
 					</ListItem>
@@ -68,10 +76,10 @@ const DrawerMenuIcon: React.FC = () => {
 			</List>
 			<Divider />
 			<List>
-				{["All mail", "Trash", "Spam"].map((text, index) => (
+				{["ログイン・ログアウト", "", "", ""].map((text, index) => (
 					<ListItem key={text} disablePadding>
 						<ListItemButton>
-							<ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
+							<ListItemIcon>{iconListAccount[index]}</ListItemIcon>
 							<ListItemText primary={text} />
 						</ListItemButton>
 					</ListItem>
@@ -98,3 +106,12 @@ const DrawerMenuIcon: React.FC = () => {
 };
 
 export default DrawerMenuIcon;
+
+// <List>
+// 	{["　", "　", "　"].map((text, index) => (
+// 		<ListItem disablePadding>
+// 			<LoginLogoutButton />
+// 			<ListItemText />
+// 		</ListItem>
+// 	))}
+// </List>;
