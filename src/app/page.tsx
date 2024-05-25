@@ -1,9 +1,7 @@
 "use client";
 
+import { Home } from "@/components/augs/Home";
+
 export default function Page() {
-	return (
-		<>
-			<p>PoC</p>
-		</>
-	);
+	return <Home />;
 }
