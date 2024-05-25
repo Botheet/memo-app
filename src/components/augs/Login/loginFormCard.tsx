@@ -1,17 +1,6 @@
 import { CustomCard } from "@/components/core/CustomCard";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
-import {
-	Typography,
-	TextField,
-	InputAdornment,
-	IconButton,
-	Button,
-	Box,
-	Divider,
-	Grid,
-	ThemeProvider,
-	createTheme
-} from "@mui/material";
+import { Typography, TextField, InputAdornment, IconButton, Button, Box, Divider } from "@mui/material";
 import Link from "next/link";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginTwoToneIcon from "@mui/icons-material/LoginTwoTone";
@@ -25,13 +14,17 @@ export const LoginFormCard = () => {
 	const schema = z
 		.object({
 			email: z.string().email("正しい形式で入力してください"),
-			password: z.string().min(8, "パスワードが違います").max(12, "パスワードが違います")
+			password: z
+				.string()
+				.min(8, "パスワードは8文字以上12文字以下で使用してください")
+				.max(12, "パスワードは8文字以上12文字以下で使用してください")
 		})
 		.required();
 
 	const [showPassword, setShowPassword] = useState(false);
 
 	const {
+		handleSubmit,
 		register,
 		formState: { errors }
 	} = useForm<LoginFormBody>({ resolver: zodResolver(schema), mode: "onBlur" });
@@ -40,84 +33,65 @@ export const LoginFormCard = () => {
 		setShowPassword(!showPassword);
 	};
 
-	// カスタムテーマを作成
-	const inputTheme = createTheme({
-		components: {
-			MuiInputLabel: {
-				styleOverrides: {
-					root: {
-						color: "color" // ラベルの色
-					}
-				}
-			}
-		}
-	});
+	const onSubmit = ({ email, password }) => {
+		console.log({ email, password });
+	};
 
 	return (
 		<CustomCard title={"MEMOへログイン"}>
-			<Grid container spacing={1} alignItems="center" justifyContent="center" direction="column">
-				{/* Email 入力フィールド */}
-				<Box display="flex" flexDirection={"column"} gap={3}>
-					<ThemeProvider theme={inputTheme}>
-						<TextField
-							{...register("email")}
-							error={Boolean(errors.email)}
-							helperText={errors.email?.message}
-							label="Email"
-							type="email"
-							variant="outlined"
-							size="small"
-						/>
-						{/* Password 入力フィールド */}
-						<TextField
-							{...register("password")}
-							error={Boolean(errors.password)}
-							helperText={errors.password?.message}
-							label="Password"
-							type={showPassword ? "text" : "password"}
-							variant="outlined"
-							InputProps={{
-								endAdornment: (
-									<InputAdornment position="end">
-										<IconButton aria-label="toggle password visibility" onClick={togglePasswordVisibility} edge="end">
-											{showPassword ? <VisibilityOff /> : <Visibility />}
-										</IconButton>
-									</InputAdornment>
-								)
-							}}
-							size="small"
-						/>
-					</ThemeProvider>
-				</Box>
+			<Box
+				display="flex"
+				flexDirection="column"
+				component="form"
+				onSubmit={handleSubmit(onSubmit)}
+				gap={2}
+				textAlign="center"
+			>
+				<TextField
+					size="small"
+					color="secondary"
+					{...register("email")}
+					error={Boolean(errors.email)}
+					helperText={errors.email?.message}
+					FormHelperTextProps={{ sx: { maxWidth: "230px" } }}
+					label="Email"
+					type="email"
+					variant="outlined"
+				/>
 
-				{/* ログインボタン */}
-				<Grid xs={12} md={15} sx={{ marginTop: 3 }} container justifyContent="center">
-					<Button variant="contained" size="large" color="info" type="submit" sx={{ width: "245px" }}>
-						ログイン
-						<LoginTwoToneIcon />
-					</Button>
-				</Grid>
-			</Grid>
-			<Box mt={1} mb={2} sx={{ textAlign: "center", marginTop: 2 }}>
-				<Typography variant="caption" display="block" gutterBottom>
-					<Link href="#" color={"navy"}>
-						{/* <Typography underline="hover"> */}
-						{"パスワードを忘れた場合はこちら"}
-						{/* </Typography> */}
-					</Link>
-				</Typography>
-			</Box>
-
-			{/* 区切り線 */}
-			<Divider variant="middle" sx={{ my: 2 }} />
-
-			{/* 新規作成ボタン */}
-			<Grid xs={12} md={15} sx={{ marginTop: 1 }} container justifyContent="center">
-				<Button variant="contained" size="large" color="success" type="submit" sx={{ width: "250px" }}>
-					アカウント新規作成
-					<AccountCircleIcon />
+				<TextField
+					size="small"
+					color="secondary"
+					{...register("password")}
+					error={Boolean(errors.password)}
+					helperText={errors.password?.message}
+					FormHelperTextProps={{ sx: { maxWidth: "230px" } }}
+					label="Password"
+					type={showPassword ? "text" : "password"}
+					variant="outlined"
+					InputProps={{
+						endAdornment: (
+							<InputAdornment position="end">
+								<IconButton aria-label="toggle password visibility" onClick={togglePasswordVisibility} edge="end">
+									{showPassword ? <VisibilityOff /> : <Visibility />}
+								</IconButton>
+							</InputAdornment>
+						)
+					}}
+				/>
+				<Button variant="contained" size="large" color="info" type="submit" endIcon={<LoginTwoToneIcon />}>
+					ログイン
 				</Button>
-			</Grid>
+				<Link href="/fogot-password">
+					<Typography fontSize="12px" color="navy">
+						パスワードを忘れた場合はこちら
+					</Typography>
+				</Link>
+				<Divider variant="middle" />
+				<Button variant="contained" size="large" color="success" endIcon={<AccountCircleIcon />}>
+					アカウントを新規作成
+				</Button>
+			</Box>
 		</CustomCard>
 	);
 };
