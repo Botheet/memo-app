@@ -1,43 +1,23 @@
 "use client";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import Image from "next/image"; // Next.jsのImageコンポーネントをインポート
-import { LoginFormCard } from "./loginFormCard";
-
-type LoginFormBody = { email: string; password: string };
+import { LoginFormCard } from "./LoginFormCard";
 
 export const Login = () => {
 	return (
 		<Box
+			pt={14}
 			sx={{
-				position: "fixed",
-				top: "0",
-				left: "0",
-				width: "100%",
-				height: "100%",
-				overflow: "auto",
-				backgroundImage: "url('/ログインページ背景.png')", //背景崩れ回避のため、cssにて記述
-				backgroundSize: "cover",
-				backgroundPosition: "center",
-				backgroundRepeat: "no-repeat"
+				minHeight: "100vh",
+				backgroundImage: "url(./loginPageBackground.png)",
+				backgroundSize: "cover"
 			}}
 		>
-			<Box
-				sx={{
-					position: "relative",
-					display: "flex",
-					flexDirection: "column",
-					alignItems: "center",
-					justifyContent: "center",
-					height: "100%"
-				}}
-			>
-				<Typography variant="h4" color="white" mt={2} textAlign="center">
-					MEMO app
-				</Typography>
-				<Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
-					<LoginFormCard />
-				</Box>
+			<Typography variant="h4" color={"white"} textAlign={"center"}>
+				MEMO app
+			</Typography>
+			<Box display="flex" justifyContent={"center"}>
+				<LoginFormCard />
 			</Box>
 		</Box>
 	);

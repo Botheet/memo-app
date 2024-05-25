@@ -8,8 +8,8 @@ type CardComponentsProps = {
 
 export const CustomCard: FC<CardComponentsProps> = ({ title, children }) => {
 	return (
-		<Card sx={{ backgroundColor: "rgba(255,255,255,1)", maxWidth: 300, maxHeightheight: 10 }}>
-			<Typography px={10} py={2} textAlign="center">
+		<Card sx={{ maxWidth: 345 }}>
+			<Typography px={4} py={2} textAlign="center">
 				{title}
 			</Typography>
 			<CardContent sx={{ px: 4, pt: 0 }}>{children}</CardContent>
