@@ -2,6 +2,9 @@ import React from "react";
 import { Container, Typography, Button, Stack } from "@mui/material";
 import { styled } from "@mui/system";
 import Link from "next/link";
+import { useRecoilState } from "recoil";
+import { test } from "@/globalState/Atom/test";
+import { text } from "stream/consumers";
 
 const MainContainer = styled(Container)({
 	height: "100vh",
@@ -26,10 +29,14 @@ const StyledButton = styled(Button)({
 });
 
 export const Home: React.FC = () => {
+	const [ex, setEx] = useRecoilState<string>(test);
+	const nandeii = (text: string) => {
+		setEx(text);
+	};
 	return (
 		<MainContainer>
 			<Typography variant="h2" component="h1" gutterBottom>
-				Welcome to SimpleMemo
+				Welcome to {ex}
 			</Typography>
 			<Typography variant="h6" component="p" gutterBottom>
 				Keep your notes organized and accessible.
@@ -38,9 +45,11 @@ export const Home: React.FC = () => {
 				<Link href="/login" passHref>
 					<StyledButton variant="contained">Login</StyledButton>
 				</Link>
-				<Link href="/register" passHref>
-					<StyledButton variant="contained">Sign Up</StyledButton>
-				</Link>
+				{/* <Link href="/register" passHref> */}
+				<StyledButton onClick={() => nandeii("kotoba")} variant="contained">
+					Sign Up
+				</StyledButton>
+				{/* </Link> */}
 			</Stack>
 		</MainContainer>
 	);

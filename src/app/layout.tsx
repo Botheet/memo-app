@@ -7,6 +7,7 @@ import { ThemeProvider } from "@emotion/react";
 import { theme } from "@/styles/theme";
 import Header from "@/components/augs/Header";
 import { CssBaseline } from "@mui/material";
+import { RecoilRoot } from "recoil";
 
 export default function RootLayout({
 	children
@@ -18,7 +19,9 @@ export default function RootLayout({
 			<body>
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
-					<Header>{children}</Header>
+					<RecoilRoot>
+						<Header>{children}</Header>
+					</RecoilRoot>
 				</ThemeProvider>
 			</body>
 		</html>

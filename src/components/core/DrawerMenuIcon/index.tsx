@@ -29,7 +29,6 @@ import InfoIcon from "@mui/icons-material/Info";
 import MenuIcon from "@mui/icons-material/Menu";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import LoginIcon from "@mui/icons-material/Login";
-import LoginLogoutButton from "../LoginLogoutButton";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -40,6 +39,8 @@ const DrawerMenuIcon: React.FC = () => {
 		bottom: false,
 		right: false
 	});
+
+	const drawerMenuItems = ["ログイン・ログアウト", "", "", ""];
 
 	const toggleDrawer = (anchor: Anchor, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
 		if (
@@ -76,7 +77,7 @@ const DrawerMenuIcon: React.FC = () => {
 			</List>
 			<Divider />
 			<List>
-				{["ログイン・ログアウト", "", "", ""].map((text, index) => (
+				{drawerMenuItems.map((text, index) => (
 					<ListItem key={text} disablePadding>
 						<ListItemButton>
 							<ListItemIcon>{iconListAccount[index]}</ListItemIcon>
@@ -106,12 +107,3 @@ const DrawerMenuIcon: React.FC = () => {
 };
 
 export default DrawerMenuIcon;
-
-// <List>
-// 	{["　", "　", "　"].map((text, index) => (
-// 		<ListItem disablePadding>
-// 			<LoginLogoutButton />
-// 			<ListItemText />
-// 		</ListItem>
-// 	))}
-// </List>;

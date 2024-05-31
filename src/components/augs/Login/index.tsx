@@ -2,8 +2,11 @@
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { LoginFormCard } from "./LoginFormCard";
+import { useRecoilValue } from "recoil";
+import { test } from "@/globalState/Atom/test";
 
 export const Login = () => {
+	const ex = useRecoilValue(test);
 	return (
 		<Box
 			pt={14}
@@ -14,7 +17,7 @@ export const Login = () => {
 			}}
 		>
 			<Typography variant="h4" color={"white"} textAlign={"center"}>
-				MEMO app
+				{ex}
 			</Typography>
 			<Box display="flex" justifyContent={"center"}>
 				<LoginFormCard />
