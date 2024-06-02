@@ -1,5 +1,7 @@
 "use client";
 
+import { LeftBottom } from "@/components/augs/MainPage/LeftBottom";
+import { LeftTop } from "@/components/augs/MainPage/LeftTop";
 import { Grid, Paper } from "@mui/material";
 import React from "react";
 
@@ -8,14 +10,39 @@ export default function mainPage() {
 		// 左のフレーム
 		<Grid container spacing={0.5} marginTop={8}>
 			<Grid item xs={3}>
-				<Paper
-					sx={{
-						height: 550,
-						backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
-					}}
-				>
-					左
-				</Paper>
+				<Grid>
+					<Paper
+						sx={{
+							height: "auto",
+							minHeight: "50px",
+							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
+						}}
+					>
+						<LeftTop />
+					</Paper>
+				</Grid>
+				<Grid>
+					<Paper
+						sx={{
+							height: "auto",
+							minHeight: "430px",
+							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
+						}}
+					>
+						作成したメモのタイトルを表示
+					</Paper>
+				</Grid>
+				<Grid>
+					<Paper
+						sx={{
+							height: "auto",
+							minHeight: "70px",
+							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
+						}}
+					>
+						<LeftBottom />
+					</Paper>
+				</Grid>
 			</Grid>
 
 			{/* 真ん中のフレーム */}
@@ -34,7 +61,8 @@ export default function mainPage() {
 				<Grid>
 					<Paper
 						sx={{
-							height: 500,
+							height: "auto",
+							minHeight: "500px",
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
@@ -46,7 +74,8 @@ export default function mainPage() {
 			<Grid item xs={2}>
 				<Paper
 					sx={{
-						height: 550,
+						height: "auto",
+						minHeight: "550px",
 						backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 					}}
 				>

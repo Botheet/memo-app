@@ -6,5 +6,5 @@ const [memoLists, setMemoLists] = useState<memoList[]>([]);
 type memoList = {
 	listName: string;
 	id: number;
-	checked: boolean;
+	isSelected: boolean;
 };

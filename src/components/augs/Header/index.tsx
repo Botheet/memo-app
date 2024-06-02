@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ children }) => {
 	return (
 		<Box>
 			<AppBar position="fixed" sx={{ backgroundColor: "rgba(2, 2, 2, 0)", boxShadow: "none", marginTop: 0 }}>
-				<Toolbar sx={{ minHeight: 2, maxHeight: 3, width: "100%", flexWrap: "nowrap" }}>
+				<Toolbar sx={{ maxHeight: 3, width: "100%", flexWrap: "nowrap" }}>
 					{/* ページアイコン */}
 					<Link href="/">
 						{/*最終的にここがトップページ*/}

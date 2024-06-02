@@ -29,6 +29,8 @@ import InfoIcon from "@mui/icons-material/Info";
 import MenuIcon from "@mui/icons-material/Menu";
 import ContactMailIcon from "@mui/icons-material/ContactMail";
 import LoginIcon from "@mui/icons-material/Login";
+import KeyboardReturnIcon from "@mui/icons-material/KeyboardReturn";
+import NoteAltIcon from "@mui/icons-material/NoteAlt";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
@@ -54,7 +56,7 @@ const DrawerMenuIcon: React.FC = () => {
 		setState({ ...state, [anchor]: open });
 	};
 
-	const iconListMenu = [<HomeIcon />, <InfoIcon />, <LanguageIcon />, <ContactMailIcon />];
+	const iconListMenu = [<KeyboardReturnIcon />, <NoteAltIcon />, <HomeIcon />, <LanguageIcon />];
 	const iconListAccount = [<LoginIcon />, <LanguageIcon />, <InfoIcon />, <ContactMailIcon />];
 	//※※※ログインとログアウトを切り替えるコンポーネントを作成してインポートする※※※
 
@@ -66,7 +68,7 @@ const DrawerMenuIcon: React.FC = () => {
 			onKeyDown={toggleDrawer(anchor, false)}
 		>
 			<List>
-				{["ホーム", "", "", ""].map((text, index) => (
+				{["閉じる", "メモ", "", ""].map((text, index) => (
 					<ListItem key={text} disablePadding>
 						<ListItemButton>
 							<ListItemIcon>{iconListMenu[index]}</ListItemIcon>
