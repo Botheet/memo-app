@@ -1,7 +1,8 @@
 "use client";
 
 import { MainLeftTop } from "@/components/augs/MainPage/LeftTop";
-import { TrashBoxButtom } from "@/components/core/TrashBoxButtom";
+import { TrashBoxLeftTop } from "@/components/augs/TrashBoxPage/TrashBoxLeftTop";
+import { MainPageButton } from "@/components/core/MainPageButton";
 import { Grid, Paper } from "@mui/material";
 import React from "react";
 
@@ -18,7 +19,7 @@ export default function mainPage() {
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
-						<MainLeftTop />
+						<TrashBoxLeftTop />
 					</Paper>
 				</Grid>
 				<Grid>
@@ -40,10 +41,11 @@ export default function mainPage() {
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
-						<TrashBoxButtom />
+						<MainPageButton />
 					</Paper>
 				</Grid>
 			</Grid>
+
 			{/* 真ん中のフレーム */}
 			<Grid item xs={8.5}>
 				<Grid container spacing={0} direction="column" justifyContent="center">
@@ -71,18 +73,6 @@ export default function mainPage() {
 					</Grid>
 				</Grid>
 			</Grid>
-			{/* 右のフレーム */}
-			{/* <Grid item xs={2}>
-				<Paper
-					sx={{
-						height: "auto",
-						minHeight: "630px",
-						backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
-					}}
-				>
-					右
-				</Paper>
-			</Grid> */}
 		</Grid>
 	);
 }

@@ -3,7 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
-export const LeftTop = () => {
+export const MainLeftTop = () => {
 	return (
 		<Box display="flex" alignItems="flex-start" flexDirection="column" gap={0.1}>
 			<Button fullWidth style={{ justifyContent: "flex-start" }}>
