@@ -1,7 +1,7 @@
 "use client";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import { LoginFormCard } from "./LoginFormCard";
+import { LoginFormCard } from "./LoginCard";
 import { useRecoilValue } from "recoil";
 import { test } from "@/globalState/Atom/test";
 

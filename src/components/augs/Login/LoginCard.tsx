@@ -9,6 +9,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 import { LoginFormBody } from "@/types";
+import { AccountCreate } from "@/components/core/AccountCreateDialog/AccountCreate";
+import AccountCreateDialog from "@/components/core/AccountCreateDialog";
 
 export const LoginFormCard = () => {
 	const schema = z
@@ -82,15 +84,13 @@ export const LoginFormCard = () => {
 				<Button variant="contained" size="large" color="info" type="submit" endIcon={<LoginTwoToneIcon />}>
 					ログイン
 				</Button>
-				<Link href="/fogot-password">
+				<Link href="/forgot-password">
 					<Typography fontSize="12px" color="navy">
 						パスワードを忘れた場合はこちら
 					</Typography>
 				</Link>
 				<Divider variant="middle" />
-				<Button variant="contained" size="large" color="success" endIcon={<AccountCircleIcon />}>
-					アカウントを新規作成
-				</Button>
+				<AccountCreateDialog />
 			</Box>
 		</CustomCard>
 	);
