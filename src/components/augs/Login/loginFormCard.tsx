@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 import { LoginFormBody } from "@/types";
+import { AccountCreate } from "@/components/core/AccountCreateDialog/AccountCreate";
 import AccountCreateDialog from "@/components/core/AccountCreateDialog";
 
 export const LoginFormCard = () => {
@@ -89,10 +90,10 @@ export const LoginFormCard = () => {
 					</Typography>
 				</Link>
 				<Divider variant="middle" />
+				<AccountCreateDialog />
 				{/* <Button variant="contained" size="large" color="success" endIcon={<AccountCircleIcon />}>
 					アカウントを新規作成
 				</Button> */}
-				<AccountCreateDialog />
 			</Box>
 		</CustomCard>
 	);
