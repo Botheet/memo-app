@@ -4,6 +4,7 @@ import { MainLeftTop } from "@/components/augs/MainPage/LeftTop";
 import { TrashBoxLeftTop } from "@/components/augs/TrashBoxPage/TrashBoxLeftTop";
 import { MainPageButton } from "@/components/core/MainPageButton";
 import { Grid, Paper } from "@mui/material";
+import Link from "next/link";
 import React from "react";
 
 export default function mainPage() {
@@ -41,7 +42,9 @@ export default function mainPage() {
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
-						<MainPageButton />
+						<Link href="/mainPage">
+							<MainPageButton />
+						</Link>
 					</Paper>
 				</Grid>
 			</Grid>
