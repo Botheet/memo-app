@@ -84,7 +84,7 @@ export const LoginFormCard = () => {
 				<Button variant="contained" size="large" color="info" type="submit" endIcon={<LoginTwoToneIcon />}>
 					ログイン
 				</Button>
-				<Link href="/fogot-password">
+				<Link href="/forgot-password">
 					<Typography fontSize="12px" color="navy">
 						パスワードを忘れた場合はこちら
 					</Typography>
