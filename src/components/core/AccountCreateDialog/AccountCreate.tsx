@@ -1,4 +1,4 @@
-import { LoginFormBody } from "@/types";
+import { AccountCreateBody, LoginFormBody } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { Box, TextField, InputAdornment, IconButton, Button } from "@mui/material";
@@ -6,10 +6,13 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import axios from "axios";
+import { basePath, httpHeader } from "@/constants/apiItem";
 
 export const AccountCreate = () => {
 	const schema = z
 		.object({
+			username: z.string().min(1, "ユーザー名を入力してください"),
 			email: z.string().email("正しい形式で入力してください"),
 			password: z
 				.string()
@@ -24,14 +27,27 @@ export const AccountCreate = () => {
 		handleSubmit,
 		register,
 		formState: { errors }
-	} = useForm<LoginFormBody>({ resolver: zodResolver(schema), mode: "onBlur" });
+	} = useForm<AccountCreateBody>({ resolver: zodResolver(schema), mode: "onBlur" });
 
 	const togglePasswordVisibility = () => {
 		setShowPassword(!showPassword);
 	};
 
-	const onSubmit = ({ email, password }) => {
-		console.log({ email, password });
+	// console.log(process.env.NEXT_PUBLIC_API_URL);
+
+	const onSubmit = (data: AccountCreateBody) => {
+		console.log(data);
+		const registerUser = async () => {
+			try {
+				const response = await axios.post(`${basePath}/register`, data, {
+					headers: httpHeader
+				});
+				console.log(response.data);
+			} catch (error) {
+				console.error("Error registering user:", error);
+			}
+		};
+		registerUser();
 	};
 
 	//パスワードの確認とパスワードの入力内容があっているか確認するのも作成
@@ -44,6 +60,18 @@ export const AccountCreate = () => {
 			gap={2}
 			textAlign="center"
 		>
+			<TextField
+				size="small"
+				color="secondary"
+				{...register("username")}
+				error={Boolean(errors.username)}
+				helperText={errors.username?.message}
+				FormHelperTextProps={{ sx: { maxWidth: "230px" } }}
+				label="Username"
+				type="text"
+				variant="outlined"
+			/>
+
 			<TextField
 				size="small"
 				color="secondary"
@@ -76,7 +104,7 @@ export const AccountCreate = () => {
 					)
 				}}
 			/>
-			<Button variant="contained" size="large" color="success" endIcon={<AccountCircleIcon />}>
+			<Button variant="contained" type="submit" size="large" color="success" endIcon={<AccountCircleIcon />}>
 				アカウントを新規作成
 			</Button>
 		</Box>
