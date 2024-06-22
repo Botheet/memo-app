@@ -13,7 +13,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Typography from "@mui/material/Typography";
 import { blue } from "@mui/material/colors";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { AccountCreate } from "./AccountCreate";
+import { AccountCreate } from "./accountCreate";
 import { Box } from "@mui/material";
 
 const emails = ["username@gmail.com", "user02@gmail.com"];

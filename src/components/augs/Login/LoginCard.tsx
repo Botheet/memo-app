@@ -9,8 +9,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 import { LoginFormBody } from "@/types";
-import { AccountCreate } from "@/components/core/AccountCreateDialog/AccountCreate";
+import { AccountCreate } from "@/components/core/AccountCreateDialog/accountCreate";
 import AccountCreateDialog from "@/components/core/AccountCreateDialog";
+import { apiClient } from "@/libs/apiClient";
+import { useRouter } from "next/navigation";
 
 export const LoginFormCard = () => {
 	const schema = z
@@ -35,8 +37,23 @@ export const LoginFormCard = () => {
 		setShowPassword(!showPassword);
 	};
 
-	const onSubmit = ({ email, password }) => {
-		console.log({ email, password });
+	const router = useRouter();
+
+	const onSubmit = (data: LoginFormBody) => {
+		console.log(data);
+
+		const login = async () => {
+			try {
+				const response = await apiClient.post("/auth/token/", data);
+				console.log(response.data);
+				localStorage.setItem("accessToken", response.data.access);
+				localStorage.setItem("refreshToken", response.data.refresh);
+				router.push("/mainPage");
+			} catch (error) {
+				console.error("Error registering user:", error);
+			}
+		};
+		login();
 	};
 
 	return (

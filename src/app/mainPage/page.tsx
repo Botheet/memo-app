@@ -1,12 +1,30 @@
 "use client";
 
 import { MainLeftTop } from "@/components/augs/MainPage/LeftTop";
+import { WriteBody } from "@/components/augs/WriteBody";
+import { WriteTitle } from "@/components/augs/WriteTitle";
 import { TrashBoxButtom } from "@/components/core/TrashBoxButtom";
-import { Grid, Paper } from "@mui/material";
+import { apiClient } from "@/libs/apiClient";
+import { Grid, Paper, Typography } from "@mui/material";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 export default function mainPage() {
+	const [memos, setMemos] = useState([]);
+
+	useEffect(() => {
+		const getMemos = async () => {
+			try {
+				const response = await apiClient.get("/api/memos/");
+				console.log(response.data);
+				setMemos(response.data);
+			} catch (error) {
+				console.error("Error registering user:", error);
+			}
+		};
+		getMemos();
+	}, []);
+
 	return (
 		<Grid container spacing={0.5} marginTop={8}>
 			{/* 左のフレーム */}
@@ -30,7 +48,10 @@ export default function mainPage() {
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
-						<li>作成したメモのタイトルを表示</li>
+						{memos.map((memo) => {
+							return <Typography key={memo.id}>{memo.title}</Typography>;
+						})}
+						{/* <MemoTitleList /> */}
 					</Paper>
 				</Grid>
 				<Grid>
@@ -49,7 +70,7 @@ export default function mainPage() {
 			</Grid>
 			{/* 真ん中のフレーム */}
 			<Grid item xs={8.5}>
-				<Grid container spacing={0} direction="column" justifyContent="center">
+				<Grid container spacing={-1} direction="column" justifyContent="center">
 					<Grid>
 						<Paper
 							sx={{
@@ -57,19 +78,20 @@ export default function mainPage() {
 								backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 							}}
 						>
-							タイトル
+							<WriteTitle />
 						</Paper>
 					</Grid>
-
 					<Grid>
 						<Paper
 							sx={{
-								height: "auto",
+								// height: "auto",
 								minHeight: "580px",
 								backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 							}}
 						>
-							本文
+							{/* <Box sx={{ Height: "100%" }}> */}
+							<WriteBody />
+							{/* </Box> */}
 						</Paper>
 					</Grid>
 				</Grid>

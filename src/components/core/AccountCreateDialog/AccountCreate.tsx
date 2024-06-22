@@ -1,4 +1,4 @@
-import { AccountCreateBody, LoginFormBody } from "@/types";
+import { AccountCreateBody } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { Box, TextField, InputAdornment, IconButton, Button } from "@mui/material";
@@ -6,8 +6,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import axios from "axios";
-import { basePath, httpHeader } from "@/constants/apiItem";
+import { apiClient } from "@/libs/apiClient";
 
 export const AccountCreate = () => {
 	const schema = z
@@ -37,11 +36,10 @@ export const AccountCreate = () => {
 
 	const onSubmit = (data: AccountCreateBody) => {
 		console.log(data);
+
 		const registerUser = async () => {
 			try {
-				const response = await axios.post(`${basePath}/register`, data, {
-					headers: httpHeader
-				});
+				const response = await apiClient.post("/register/", data);
 				console.log(response.data);
 			} catch (error) {
 				console.error("Error registering user:", error);
