@@ -2,17 +2,14 @@ import { CustomCard } from "@/components/core/CustomCard";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { Typography, TextField, InputAdornment, IconButton, Button, Box, Divider } from "@mui/material";
 import Link from "next/link";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginTwoToneIcon from "@mui/icons-material/LoginTwoTone";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 import { LoginFormBody } from "@/types";
-import { AccountCreate } from "@/components/core/AccountCreateDialog/accountCreate";
 import AccountCreateDialog from "@/components/core/AccountCreateDialog";
-import { apiClient } from "@/libs/apiClient";
-import { useRouter } from "next/navigation";
+import { useLoginApi } from "@/modules/apiHooks/hooks";
 
 export const LoginFormCard = () => {
 	const schema = z
@@ -37,23 +34,11 @@ export const LoginFormCard = () => {
 		setShowPassword(!showPassword);
 	};
 
-	const router = useRouter();
-
+	const { mutationLogin } = useLoginApi();
 	const onSubmit = (data: LoginFormBody) => {
 		console.log(data);
 
-		const login = async () => {
-			try {
-				const response = await apiClient.post("/auth/token/", data);
-				console.log(response.data);
-				localStorage.setItem("accessToken", response.data.access);
-				localStorage.setItem("refreshToken", response.data.refresh);
-				router.push("/mainPage");
-			} catch (error) {
-				console.error("Error registering user:", error);
-			}
-		};
-		login();
+		mutationLogin.mutate(data);
 	};
 
 	return (
@@ -98,7 +83,14 @@ export const LoginFormCard = () => {
 						)
 					}}
 				/>
-				<Button variant="contained" size="large" color="info" type="submit" endIcon={<LoginTwoToneIcon />}>
+				<Button
+					disabled={mutationLogin.isPending} //isPending(進行中)はtrueなのでdisabled（非活性）になる
+					variant="contained"
+					size="large"
+					color="info"
+					type="submit"
+					endIcon={<LoginTwoToneIcon />}
+				>
 					ログイン
 				</Button>
 				<Link href="/forgot-password">
