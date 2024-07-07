@@ -6,5 +6,6 @@ export type MemoContents = {
 	title: string;
 	content: string;
 	id: number;
-	complete_flag: true;
+	complete_flag: boolean;
+	created_at: string;
 };

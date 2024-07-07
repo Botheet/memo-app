@@ -37,7 +37,6 @@ export const LoginFormCard = () => {
 	const { mutationLogin } = useLoginApi();
 	const onSubmit = (data: LoginFormBody) => {
 		console.log(data);
-
 		mutationLogin.mutate(data);
 	};
 
