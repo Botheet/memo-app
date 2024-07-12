@@ -2,13 +2,14 @@ import { CustomCard } from "@/components/core/CustomCard";
 import { VisibilityOff, Visibility } from "@mui/icons-material";
 import { Typography, TextField, InputAdornment, IconButton, Button, Box, Divider } from "@mui/material";
 import Link from "next/link";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import LoginTwoToneIcon from "@mui/icons-material/LoginTwoTone";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useState } from "react";
 import { LoginFormBody } from "@/types";
+import AccountCreateDialog from "@/components/core/AccountCreateDialog";
+import { useLoginApi } from "@/modules/apiHooks/hooks";
 
 export const LoginFormCard = () => {
 	const schema = z
@@ -33,8 +34,10 @@ export const LoginFormCard = () => {
 		setShowPassword(!showPassword);
 	};
 
-	const onSubmit = ({ email, password }) => {
-		console.log({ email, password });
+	const { mutationLogin } = useLoginApi();
+	const onSubmit = (data: LoginFormBody) => {
+		console.log(data);
+		mutationLogin.mutate(data);
 	};
 
 	return (
@@ -79,18 +82,23 @@ export const LoginFormCard = () => {
 						)
 					}}
 				/>
-				<Button variant="contained" size="large" color="info" type="submit" endIcon={<LoginTwoToneIcon />}>
+				<Button
+					disabled={mutationLogin.isPending} //isPending(進行中)はtrueなのでdisabled（非活性）になる
+					variant="contained"
+					size="large"
+					color="info"
+					type="submit"
+					endIcon={<LoginTwoToneIcon />}
+				>
 					ログイン
 				</Button>
-				<Link href="/fogot-password">
+				<Link href="/forgot-password">
 					<Typography fontSize="12px" color="navy">
 						パスワードを忘れた場合はこちら
 					</Typography>
 				</Link>
 				<Divider variant="middle" />
-				<Button variant="contained" size="large" color="success" endIcon={<AccountCircleIcon />}>
-					アカウントを新規作成
-				</Button>
+				<AccountCreateDialog />
 			</Box>
 		</CustomCard>
 	);

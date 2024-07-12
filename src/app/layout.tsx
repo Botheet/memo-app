@@ -5,7 +5,12 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "@/styles/theme";
+import Header from "@/components/augs/Header";
 import { CssBaseline } from "@mui/material";
+import { RecoilRoot } from "recoil";
+import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 export default function RootLayout({
 	children
@@ -17,7 +22,11 @@ export default function RootLayout({
 			<body>
 				<ThemeProvider theme={theme}>
 					<CssBaseline />
-					{children}
+					<QueryClientProvider client={queryClient}>
+						<RecoilRoot>
+							<Header>{children}</Header>
+						</RecoilRoot>
+					</QueryClientProvider>
 				</ThemeProvider>
 			</body>
 		</html>
