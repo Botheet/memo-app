@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import DialogTitle from "@mui/material/DialogTitle";
 import Dialog from "@mui/material/Dialog";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import { AccountCreate } from "./accountCreate";
+import { AccountCreate } from "./AccountCreate";
 import { Box } from "@mui/material";
 
 const emails = ["username@gmail.com", "user02@gmail.com"];
