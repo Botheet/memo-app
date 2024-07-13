@@ -3,6 +3,7 @@
 import { MainLeftTop } from "@/components/augs/MainPage/LeftTop";
 import { WriteBody } from "@/components/augs/WriteBody";
 import { WriteTitle } from "@/components/augs/WriteTitle";
+import { LoadingList } from "@/components/core/ListSkeleton";
 import { TrashBoxButtom } from "@/components/core/TrashBoxButtom";
 import { useGetMemos } from "@/modules/apiHooks/hooks";
 import { Box, Grid, Paper, Skeleton, Typography } from "@mui/material";
@@ -31,24 +32,7 @@ export default function mainPage() {
 				<Grid>
 					{getMemosIsPending || !getMemosData ? (
 						<Box padding={2} minHeight="500px" height="auto">
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
+							<LoadingList />
 						</Box>
 					) : (
 						<Paper
@@ -84,8 +68,8 @@ export default function mainPage() {
 				<Grid container spacing={-1} direction="column" justifyContent="center">
 					<Grid>
 						<Paper
+							elevation={0}
 							sx={{
-								height: 50,
 								backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 							}}
 						>
@@ -97,6 +81,7 @@ export default function mainPage() {
 							sx={{
 								// height: "auto",
 								minHeight: "580px",
+								marginTop: "8px",
 								backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 							}}
 						>
