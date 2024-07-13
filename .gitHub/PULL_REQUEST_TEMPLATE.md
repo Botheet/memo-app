@@ -1,6 +1,6 @@
 ## Issue No.（対応するissue）
 
-CLOSE
+CLOSE #
 
 ## Files Changedの概要（何をやったか）
 
