@@ -9,3 +9,11 @@ export type MemoContents = {
 	complete_flag: boolean;
 	created_at: string;
 };
+
+// export type GetMemoBody = {
+// 	id: number;
+// 	title: string;
+// 	content: string;
+// 	complete_flag: true;
+// 	created_at: string;
+// };
