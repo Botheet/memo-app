@@ -2,9 +2,10 @@ import { Box, Button, Typography } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { apiClient } from "@/libs/apiClient";
 import { MemoContents } from "@/types";
+import { WriteBody } from "../../WriteBody";
 
 const onSubmit = (memoStatus: MemoContents) => {
 	console.log(memoStatus);

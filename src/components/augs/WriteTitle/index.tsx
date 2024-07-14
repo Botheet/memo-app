@@ -1,12 +1,13 @@
-import { TextFieldsSharp } from "@mui/icons-material";
 import { Box, TextField } from "@mui/material";
-import { maxHeaderSize } from "http";
 
 // export interface SimpleDialogProps {
 // 	open: boolean;
 // 	selectedValue: string;
 // 	onClose: (value: string) => void;
 // }
+// const StyledTextField = styled(TextField, { name: "StyledTextField" })({
+// 	"& .MuiInput-underline": false
+// });
 
 export const WriteTitle = () => {
 	return (

@@ -39,3 +39,18 @@ export const useGetMemos = () => {
 	});
 	return { getMemosData: data, getMemosError: error, getMemosIsPending: isPending };
 };
+
+//メモ本文取得API,`/api/memos/${id}/`の${id}/`は動的に変わる
+// （""のままだとAPIに送るのはidという文字になってしまいエラーが出る
+// バックコォート``に囲いテンプレートにし、${id}と記述することにより対応することが可能
+export const useGetOneMemo = (id: number) => {
+	const getOneMemo = async () => {
+		const response = await apiClient.get(`/api/memos/${id}/`);
+		return response?.data;
+	};
+	const { isPending, error, data } = useQuery({
+		queryKey: ["getOneMemoApiData"],
+		queryFn: getOneMemo
+	});
+	return { getOneMemoData: data, getOneMemoError: error, getOneMemoIsPending: isPending };
+};

@@ -1,17 +1,33 @@
 "use client";
 
 import { MainLeftTop } from "@/components/augs/MainPage/LeftTop";
-import { WriteBody } from "@/components/augs/WriteBody";
+import { MemoForm } from "@/components/augs/WriteBody";
 import { WriteTitle } from "@/components/augs/WriteTitle";
+import { LoadingList } from "@/components/core/ListSkeleton";
 import { TrashBoxButtom } from "@/components/core/TrashBoxButtom";
 import { useGetMemos } from "@/modules/apiHooks/hooks";
-import { Box, Grid, Paper, Skeleton, Typography } from "@mui/material";
+import { MemoContents } from "@/types";
+import {
+	Box,
+	Button,
+	Grid,
+	List,
+	ListItem,
+	ListItemButton,
+	ListItemIcon,
+	ListItemText,
+	Paper,
+	Skeleton,
+	Typography
+} from "@mui/material";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 export default function mainPage() {
 	const { getMemosData, getMemosError, getMemosIsPending } = useGetMemos();
 	// console.log(getMemosData);
+
+	const [selectedMemoIndex, setSelectedMemoIndex] = useState(0);
 
 	return (
 		<Grid container spacing={0.5} marginTop={8}>
@@ -31,24 +47,7 @@ export default function mainPage() {
 				<Grid>
 					{getMemosIsPending || !getMemosData ? (
 						<Box padding={2} minHeight="500px" height="auto">
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
-							<Skeleton width="60%" />
+							<LoadingList />
 						</Box>
 					) : (
 						<Paper
@@ -58,9 +57,26 @@ export default function mainPage() {
 								backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 							}}
 						>
-							{getMemosData.map((memo) => {
-								return <Typography key={memo.id}>{memo.title}</Typography>;
-							})}
+							<List>
+								{getMemosData.map((memo: MemoContents, index: number) => {
+									return (
+										<ListItem key={memo.id} disablePadding>
+											<ListItemButton onClick={() => setSelectedMemoIndex(index)}>
+												<ListItemText primary={memo.title} />
+											</ListItemButton>
+										</ListItem>
+									);
+								})}
+							</List>
+							{/* {getMemosData.map((memo: MemoContents, index: number) => {
+								return (
+									<Box>
+										<Button onClick={() => setSelectedMemoIndex(index)}>
+											<Typography key={memo.id}>{memo.title}</Typography>
+										</Button>
+									</Box>
+								);
+							})} */}
 							{/* <MemoTitleList /> */}
 						</Paper>
 					)}
@@ -84,12 +100,12 @@ export default function mainPage() {
 				<Grid container spacing={-1} direction="column" justifyContent="center">
 					<Grid>
 						<Paper
+							elevation={0}
 							sx={{
-								height: 50,
 								backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 							}}
 						>
-							<WriteTitle />
+							{/* <WriteTitle /> WriteBodyから取得するようにする */}
 						</Paper>
 					</Grid>
 					<Grid>
@@ -97,11 +113,19 @@ export default function mainPage() {
 							sx={{
 								// height: "auto",
 								minHeight: "580px",
+								marginTop: "8px",
 								backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 							}}
 						>
 							{/* <Box sx={{ Height: "100%" }}> */}
-							<WriteBody />
+
+							{getMemosIsPending || !getMemosData ? undefined : (
+								<MemoForm
+									content={getMemosData[selectedMemoIndex].content}
+									title={getMemosData[selectedMemoIndex].title}
+								/>
+								// <Typography>{getMemosData[selectedMemoIndex].content}</Typography>
+							)}
 							{/* </Box> */}
 						</Paper>
 					</Grid>
