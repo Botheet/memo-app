@@ -15,6 +15,7 @@ import {
 	ListItem,
 	ListItemButton,
 	ListItemIcon,
+	ListItemSecondaryAction,
 	ListItemText,
 	Paper,
 	Skeleton,
@@ -28,6 +29,11 @@ export default function mainPage() {
 	// console.log(getMemosData);
 
 	const [selectedMemoIndex, setSelectedMemoIndex] = useState(0);
+
+	// const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string
+	// ) => {
+	// 	setSelectedMemoIndex(selectedMemoIndex);
+	// };
 
 	return (
 		<Grid container spacing={0.5} marginTop={8}>
@@ -61,7 +67,10 @@ export default function mainPage() {
 								{getMemosData.map((memo: MemoContents, index: number) => {
 									return (
 										<ListItem key={memo.id} disablePadding>
-											<ListItemButton onClick={() => setSelectedMemoIndex(index)}>
+											<ListItemButton
+												onClick={() => setSelectedMemoIndex(index)}
+												selected={selectedMemoIndex === index}
+											>
 												<ListItemText primary={memo.title} />
 											</ListItemButton>
 										</ListItem>
