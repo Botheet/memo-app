@@ -1,6 +1,6 @@
 import { Skeleton } from "@mui/material";
 
-export const LoadingList = () => {
+export const MainLoadingList = () => {
 	return (
 		<>
 			<Skeleton width="60%" />

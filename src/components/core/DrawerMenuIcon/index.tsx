@@ -1,18 +1,3 @@
-// import { Box, Drawer } from "@mui/material";
-// import { FC, ReactNode } from "react";
-
-// type DrawerMenuIconProps = {
-// 	color: string;
-// 	children: ReactNode;
-// };
-
-// export const DrawerMenuIcon: FC<DrawerMenuIconProps> = ({ children }) => {
-// 	return (
-// 		<Box>
-// 			<Drawer>{children}</Drawer>
-// 		</Box>
-// 	);
-// };
 import * as React from "react";
 import Box from "@mui/material/Box";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
