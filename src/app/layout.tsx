@@ -5,7 +5,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { ThemeProvider } from "@emotion/react";
 import { theme } from "@/styles/theme";
-import Header from "@/components/augs/Header";
+import Header from "@/components/core/Header";
 import { CssBaseline } from "@mui/material";
 import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider, useQuery } from "@tanstack/react-query";
