@@ -1,6 +1,6 @@
 import { Box, TextField } from "@mui/material";
 import { styled } from "@mui/system";
-import { useEffect, useRef } from "react";
+import { forwardRef, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 
 const StyledTextField = styled(TextField, { name: "StyledTextField" })({
@@ -9,12 +9,11 @@ const StyledTextField = styled(TextField, { name: "StyledTextField" })({
 type MemoFormProps = {
 	content?: string;
 	title?: string;
+	// inputRef: React.Ref<HTMLInputElement>;
 	//?つけてオプショナルにする
 };
 
-export const MemoForm = ({ content, title }: MemoFormProps) => {
-	const inputRef = useRef(null);
-
+export const MemoForm = forwardRef<HTMLInputElement, MemoFormProps>(({ content, title }, inputRef) => {
 	const {
 		handleSubmit,
 		register,
@@ -27,15 +26,15 @@ export const MemoForm = ({ content, title }: MemoFormProps) => {
 	useEffect(() => {
 		setValue("content", content);
 		setValue("title", title);
-		if (inputRef.current) {
-			inputRef.current.focus();
-		}
-		console.log(inputRef);
+		// if (inputRef.current) {
+		// 	inputRef.current.focus();
+		// }
 	}, [content, title]);
 
 	return (
 		<Box display="flex" flexDirection="column" onSubmit={handleSubmit(onSubmit)}>
 			<TextField placeholder="タイトル" fullWidth {...register("title")} />
+
 			<StyledTextField
 				placeholder="本文"
 				multiline
@@ -43,8 +42,9 @@ export const MemoForm = ({ content, title }: MemoFormProps) => {
 				maxRows="23"
 				fullWidth
 				inputRef={inputRef}
+				// ref={inputRef}
 				{...register("content")}
 			/>
 		</Box>
 	);
-};
+});

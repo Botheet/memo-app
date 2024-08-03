@@ -8,18 +8,25 @@ import { useGetMemos } from "@/modules/apiHooks/hooks";
 import { MemoContents } from "@/types";
 import { Box, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 export default function main() {
 	const { getMemosData, getMemosError, getMemosIsPending } = useGetMemos();
 	// console.log(getMemosData);
-
 	const [selectedMemoIndex, setSelectedMemoIndex] = useState(0);
-
-	// const handleChange = (event: React.MouseEvent<HTMLElement>, newAlignment: string
-	// ) => {
-	// 	setSelectedMemoIndex(selectedMemoIndex);
-	// };
+	const inputRef = useRef<HTMLInputElement>(null);
+	const handleClick = () => {
+		if (inputRef.current) {
+			inputRef.current.focus();
+		}
+	};
+	useEffect(() => {
+		// if (inputRef.current) {
+		// 	inputRef.current.focus();
+		// }
+		handleClick();
+		console.log(inputRef);
+	}, [selectedMemoIndex, getMemosData]);
 
 	return (
 		<Grid container spacing={0.5} marginTop={8}>
@@ -33,7 +40,7 @@ export default function main() {
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
-						<MainLeftTop />
+						<MainLeftTop handleClick={handleClick} />
 					</Paper>
 				</Grid>
 				<Grid>
@@ -96,6 +103,7 @@ export default function main() {
 							<MemoForm
 								content={getMemosData[selectedMemoIndex].content}
 								title={getMemosData[selectedMemoIndex].title}
+								ref={inputRef}
 							/>
 							// <Typography>{getMemosData[selectedMemoIndex].content}</Typography>
 						)}
