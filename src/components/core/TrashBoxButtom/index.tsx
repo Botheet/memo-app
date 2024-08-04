@@ -1,5 +1,4 @@
 import { Box, Button, Typography } from "@mui/material";
-
 import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
 
 export const TrashBoxButtom = () => {

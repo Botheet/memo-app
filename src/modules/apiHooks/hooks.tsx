@@ -1,5 +1,5 @@
 import { apiClient } from "@/libs/apiClient";
-import { LoginFormBody, MemoContents } from "@/types";
+import { LoginFormBody, MemoContents, PostNemMemoFormBody } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
@@ -53,4 +53,23 @@ export const useGetOneMemo = (id: number) => {
 		queryFn: getOneMemo
 	});
 	return { getOneMemoData: data, getOneMemoError: error, getOneMemoIsPending: isPending };
+};
+
+//新規メモ保存用のAPI
+export const usePostNewMemoApi = () => {
+	const usePostNewMemoApi = async (postData: PostNemMemoFormBody) => {
+		const response = await apiClient.post("/api/memos/", postData);
+		return response;
+	};
+
+	const mutation = useMutation({
+		mutationFn: usePostNewMemoApi,
+		onSuccess: (response) => {
+			console.log("登録しました", response);
+		},
+		onError: (error) => {
+			console.error("Error registering user:", error);
+		}
+	});
+	return { mutationPostNewMemo: mutation };
 };
