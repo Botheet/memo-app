@@ -6,7 +6,7 @@ export type MemoContents = {
 	title: string;
 	content: string;
 	id: number;
-	complete_flag: boolean;
+	complete_flag?: boolean;
 	created_at: string;
 };
 
@@ -17,3 +17,9 @@ export type MemoContents = {
 // 	complete_flag: true;
 // 	created_at: string;
 // };
+
+export type PostNemMemoFormBody = {
+	title: string;
+	content: string;
+	complete_flag?: boolean;
+};
