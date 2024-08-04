@@ -12,21 +12,31 @@ import React, { useEffect, useRef, useState } from "react";
 
 export default function main() {
 	const { getMemosData, getMemosError, getMemosIsPending } = useGetMemos();
-	// console.log(getMemosData);
+
 	const [selectedMemoIndex, setSelectedMemoIndex] = useState(0);
+
+	// 編集中であることを管理するステートを追加
+
+	// ①新しいメモを作成した状態を管理するステートをここに追加。true,falseの判定
+	const [newMemoCreate, setNewMemoCreate] = useState(false);
+
 	const inputRef = useRef<HTMLInputElement>(null);
-	const handleClick = () => {
+
+	const handleFocus = () => {
 		if (inputRef.current) {
 			inputRef.current.focus();
 		}
 	};
+
 	useEffect(() => {
-		// if (inputRef.current) {
-		// 	inputRef.current.focus();
-		// }
-		handleClick();
-		console.log(inputRef);
+		handleFocus();
+		// console.log(inputRef);
 	}, [selectedMemoIndex, getMemosData]);
+
+	const handleCreateButtonClick = () => {
+		setNewMemoCreate(true);
+		handleFocus();
+	};
 
 	return (
 		<Grid container spacing={0.5} marginTop={8}>
@@ -40,7 +50,7 @@ export default function main() {
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
-						<MainLeftTop handleClick={handleClick} />
+						<MainLeftTop handleCreateButtonClick={handleCreateButtonClick} />
 					</Paper>
 				</Grid>
 				<Grid>
@@ -57,6 +67,13 @@ export default function main() {
 							}}
 						>
 							<List>
+								{newMemoCreate && (
+									<ListItem disablePadding>
+										<ListItemButton>
+											<ListItemText primary={"新しいメモ"} />
+										</ListItemButton>
+									</ListItem>
+								)}
 								{getMemosData.map((memo: MemoContents, index: number) => {
 									return (
 										<ListItem key={memo.id} disablePadding>

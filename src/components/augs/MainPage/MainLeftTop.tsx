@@ -1,16 +1,13 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useEffect, useRef } from "react";
-import { apiClient } from "@/libs/apiClient";
-import { MemoContents } from "@/types";
-import { register } from "module";
+import { useRef } from "react";
 
 interface ContentTextBox1Props {
-	handleClick: () => void;
+	handleCreateButtonClick: () => void;
 }
-export const MainLeftTop: React.FC<ContentTextBox1Props> = ({ handleClick }) => {
+export const MainLeftTop: React.FC<ContentTextBox1Props> = ({ handleCreateButtonClick }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	if (inputRef.current) {
@@ -19,7 +16,7 @@ export const MainLeftTop: React.FC<ContentTextBox1Props> = ({ handleClick }) => 
 
 	return (
 		<Box display="flex" alignItems="flex-start" flexDirection="column" gap={0.1}>
-			<Button fullWidth style={{ justifyContent: "flex-start" }} onClick={handleClick}>
+			<Button fullWidth style={{ justifyContent: "flex-start" }} onClick={handleCreateButtonClick}>
 				<AddIcon />
 				<Typography fontSize="12px">新規作成</Typography>
 			</Button>
