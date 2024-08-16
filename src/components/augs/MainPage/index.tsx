@@ -16,7 +16,7 @@ export default function main() {
 
 	const [open, setOpen] = React.useState(false);
 
-	// daialog
+	// dialog
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
@@ -43,6 +43,10 @@ export default function main() {
 		handleFocus();
 		// console.log(inputRef);
 	}, [selectedMemoIndex, getMemosData]);
+
+	const handleDeleteButtonClick = () => {
+		// 削除を書く
+	};
 
 	const handleCreateButtonClick = () => {
 		setNewMemoCreate(true);
@@ -76,7 +80,9 @@ export default function main() {
 
 	return (
 		<Grid container spacing={0.5} marginTop={8}>
+			{/* 新規メモを保存せずに他のメモへ移動しようとした場合のアラート（他ボタンへは未対応） */}
 			<AlertDialog open={open} handleClose={handleClose} handleExitWithoutSavingClick={handleExitWithoutSavingClick} />
+
 			{/* 左のフレーム */}
 			<Grid item xs={3.5}>
 				<Grid>
@@ -87,7 +93,10 @@ export default function main() {
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
-						<MainLeftTop handleCreateButtonClick={handleCreateButtonClick} />
+						<MainLeftTop
+							handleCreateButtonClick={handleCreateButtonClick}
+							handleDeleteButtonClick={handleDeleteButtonClick}
+						/>
 					</Paper>
 				</Grid>
 				<Grid>
