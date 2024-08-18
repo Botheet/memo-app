@@ -18,8 +18,22 @@ export type MemoContents = {
 // 	created_at: string;
 // };
 
-export type PostNemMemoFormBody = {
+export type PostNewMemoFormBody = {
 	title: string;
 	content: string;
 	complete_flag?: boolean;
+};
+
+export type TrashMemoRequest = {
+	complete_flag: true;
+};
+
+// ゴミ箱に移動するためのリクエストデータとIDを含む型を定義
+export type TrashMemoMutationVariables = {
+	id: number;
+	postData: TrashMemoRequest;
+};
+
+export type ReturnMemoRequest = {
+	complete_flag: false;
 };

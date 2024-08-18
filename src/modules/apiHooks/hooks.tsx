@@ -1,5 +1,11 @@
 import { apiClient } from "@/libs/apiClient";
-import { LoginFormBody, MemoContents, PostNemMemoFormBody } from "@/types";
+import {
+	LoginFormBody,
+	MemoContents,
+	PostNewMemoFormBody,
+	TrashMemoMutationVariables,
+	TrashMemoRequest
+} from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
@@ -57,13 +63,13 @@ export const useGetOneMemo = (id: number) => {
 
 //新規メモ保存用のAPI
 export const usePostNewMemoApi = () => {
-	const usePostNewMemoApi = async (postData: PostNemMemoFormBody) => {
+	const postNewMemoApi = async (postData: PostNewMemoFormBody) => {
 		const response = await apiClient.post("/api/memos/", postData);
 		return response;
 	};
 
 	const mutation = useMutation({
-		mutationFn: usePostNewMemoApi,
+		mutationFn: postNewMemoApi,
 		onSuccess: (response) => {
 			console.log("登録しました", response);
 		},
@@ -72,4 +78,24 @@ export const usePostNewMemoApi = () => {
 		}
 	});
 	return { mutationPostNewMemo: mutation };
+};
+
+//削除用のAPI
+//{ id, postData }: TrashMemoMutationVariables...mutationFnには引数が1つしか渡されない為、id と postData をオブジェクトにまとめた
+export const usePostTrashMemoRequestApi = () => {
+	const postTrashMemoRequestApi = async ({ id, postData }: TrashMemoMutationVariables) => {
+		const response = await apiClient.post(`/api/memos/${id}`, postData);
+		return response;
+	};
+
+	const mutation = useMutation({
+		mutationFn: postTrashMemoRequestApi,
+		onSuccess: (response) => {
+			console.log("トラッシュの対象にしました", response);
+		},
+		onError: (error) => {
+			console.error("Error registering user:", error);
+		}
+	});
+	return { mutationPostTrashMemo: mutation };
 };

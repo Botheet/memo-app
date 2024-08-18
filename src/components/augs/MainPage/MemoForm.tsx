@@ -1,8 +1,9 @@
-import { PostNemMemoFormBody } from "@/types";
-import { Box, Button, TextField } from "@mui/material";
+import { PostNewMemoFormBody } from "@/types";
+import { Box, Button, Fab, TextField } from "@mui/material";
 import { styled } from "@mui/system";
 import { forwardRef, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import NavigationIcon from "@mui/icons-material/Add";
 
 const StyledTextField = styled(TextField, { name: "StyledTextField" })({
 	"& .MuiInputBase": { height: 550 }
@@ -10,8 +11,7 @@ const StyledTextField = styled(TextField, { name: "StyledTextField" })({
 type MemoFormProps = {
 	content?: string;
 	title?: string;
-	onSubmitPostNewMemo?: (date: PostNemMemoFormBody) => void;
-	// inputRef: React.Ref<HTMLInputElement>;
+	onSubmitPostNewMemo?: (date: PostNewMemoFormBody) => void;
 	//?つけてオプショナルにする
 };
 
@@ -21,6 +21,7 @@ export const MemoForm = forwardRef<HTMLInputElement, MemoFormProps>(
 			handleSubmit,
 			register,
 			setValue,
+			watch,
 			formState: { errors }
 		} = useForm({ defaultValues: { title, content } });
 
@@ -29,10 +30,9 @@ export const MemoForm = forwardRef<HTMLInputElement, MemoFormProps>(
 		useEffect(() => {
 			setValue("content", content);
 			setValue("title", title);
-			// if (inputRef.current) {
-			// 	inputRef.current.focus();
-			// }
 		}, [content, title]);
+		// console.log(content);
+		// console.log(watch("content"));
 
 		return (
 			<Box
@@ -45,7 +45,6 @@ export const MemoForm = forwardRef<HTMLInputElement, MemoFormProps>(
 				})}
 			>
 				<TextField placeholder="タイトル" fullWidth {...register("title")} />
-
 				<StyledTextField
 					placeholder="本文"
 					multiline
@@ -55,8 +54,11 @@ export const MemoForm = forwardRef<HTMLInputElement, MemoFormProps>(
 					inputRef={inputRef}
 					// ref={inputRef}
 					{...register("content")}
-				/>
-				<Button type="submit">保存</Button>
+				/>{" "}
+				<Fab variant="extended">
+					<NavigationIcon sx={{ mr: 1 }} />
+					Extended
+				</Fab>
 			</Box>
 		);
 	}

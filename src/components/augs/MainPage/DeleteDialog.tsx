@@ -6,13 +6,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-type AlertDialogprops = {
+type DeleteDialogprops = {
 	handleClose: () => void;
 	open: boolean;
-	handleExitWithoutSavingClick: () => void;
 };
 
-export const AlertDialog: React.FC<AlertDialogprops> = ({ handleClose, open, handleExitWithoutSavingClick }) => {
+export const DeleteDialog: React.FC<DeleteDialogprops> = ({ handleClose, open }) => {
 	return (
 		<React.Fragment>
 			<Dialog
@@ -21,22 +20,14 @@ export const AlertDialog: React.FC<AlertDialogprops> = ({ handleClose, open, han
 				aria-labelledby="alert-dialog-title"
 				aria-describedby="alert-dialog-description"
 			>
-				<DialogTitle id="alert-dialog-title">{"編集中の内容を保存しますか"}</DialogTitle>
+				<DialogTitle id="alert-dialog-title">{"選択中のメモを削除します"}</DialogTitle>
 				<DialogContent>
 					<DialogContentText id="alert-dialog-description">
-						保存せずに移動した場合、編集中の内容は削除されてしまいます。
+						選択中のメモを削除しますがよろしいでしょうか
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleClose}>保存</Button>
-					<Button
-						onClick={() => {
-							handleExitWithoutSavingClick();
-							handleClose();
-						}}
-					>
-						保存せずに編集終了
-					</Button>
+					<Button onClick={handleClose}>削除</Button>
 					<Button onClick={handleClose} autoFocus>
 						キャンセル
 					</Button>

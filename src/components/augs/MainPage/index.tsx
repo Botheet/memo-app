@@ -4,12 +4,15 @@ import { MainLeftTop } from "@/components/augs/MainPage/MainLeftTop";
 import { MemoForm } from "@/components/augs/MainPage/MemoForm";
 import { MainLoadingList } from "@/components/augs/MainPage/MainLoadingList";
 import { TrashBoxButtom } from "@/components/core/TrashBoxButtom";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useGetMemos, usePostNewMemoApi } from "@/modules/apiHooks/hooks";
-import { MemoContents, PostNemMemoFormBody } from "@/types";
-import { Box, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
+import { MemoContents, PostNewMemoFormBody } from "@/types";
+import { Box, Button, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
 import Link from "next/link";
 import React, { use, useEffect, useRef, useState } from "react";
 import { AlertDialog } from "./AlertDialog";
+import { Padding } from "@mui/icons-material";
+import { DeleteDialog } from "./DeleteDialog";
 
 export default function main() {
 	const { getMemosData, getMemosError, getMemosIsPending } = useGetMemos();
@@ -44,9 +47,21 @@ export default function main() {
 		// console.log(inputRef);
 	}, [selectedMemoIndex, getMemosData]);
 
-	const handleDeleteButtonClick = () => {
-		// 削除を書く
+	const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [selectedDeleteIndex, setSelectedDeleteIndex] = useState<number | null>(null);
+
+	const handleTrashMemoDialogOpenClick = (index: number) => {
+		setDeleteDialogOpen(true);
+		console.log("deleteDialog");
+		setSelectedDeleteIndex(index);
 	};
+	const handleTrashMemoDialogClose = () => {
+		setDeleteDialogOpen(false);
+		setSelectedDeleteIndex(null);
+	};
+
+	// 削除を書く idを受け取って、そのidを使ってリクエストをするようにする。
+	//API。/api/memos/{id}/
 
 	const handleCreateButtonClick = () => {
 		setNewMemoCreate(true);
@@ -74,7 +89,7 @@ export default function main() {
 	// const onSubmitEditMemo = () => {};
 
 	const { mutationPostNewMemo } = usePostNewMemoApi();
-	const onSubmitPostNewMemo = (postBody: PostNemMemoFormBody) => {
+	const onSubmitPostNewMemo = (postBody: PostNewMemoFormBody) => {
 		mutationPostNewMemo.mutate(postBody);
 	};
 
@@ -82,7 +97,7 @@ export default function main() {
 		<Grid container spacing={0.5} marginTop={8}>
 			{/* 新規メモを保存せずに他のメモへ移動しようとした場合のアラート（他ボタンへは未対応） */}
 			<AlertDialog open={open} handleClose={handleClose} handleExitWithoutSavingClick={handleExitWithoutSavingClick} />
-
+			<DeleteDialog open={isDeleteDialogOpen} handleClose={handleTrashMemoDialogClose} />
 			{/* 左のフレーム */}
 			<Grid item xs={3.5}>
 				<Grid>
@@ -93,12 +108,11 @@ export default function main() {
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
-						<MainLeftTop
-							handleCreateButtonClick={handleCreateButtonClick}
-							handleDeleteButtonClick={handleDeleteButtonClick}
-						/>
+						{/* 左上（新規・削除） */}
+						<MainLeftTop handleCreateButtonClick={handleCreateButtonClick} />
 					</Paper>
 				</Grid>
+				{/* 左中段　メモリスト */}
 				<Grid>
 					{getMemosIsPending || !getMemosData ? (
 						<Box padding={2} minHeight="500px" height="auto">
@@ -122,16 +136,27 @@ export default function main() {
 								)}
 								{getMemosData.map((memo: MemoContents, index: number) => {
 									return (
-										<ListItem key={memo.id} disablePadding>
+										<ListItem key={memo.id} disablePadding sx={{ display: "flex", flexDirection: "row" }}>
 											<ListItemButton
 												onClick={() => {
 													handlePrevMemoListClick(); //ダイアログで注意→このファルスをまとめた関数を作ってここにいれる
 													setSelectedMemoIndex(index);
 												}}
-												selected={selectedMemoIndex === index && !newMemoCreate}
+												sx={{ backgroundColor: index === selectedDeleteIndex ? "pink" : undefined }}
+												selected={selectedMemoIndex === index && selectedDeleteIndex === null && !newMemoCreate}
 											>
 												<ListItemText primary={memo.title} />
 											</ListItemButton>
+											<Button
+												// color={index === selectedDeleteIndex ? "error" : undefined}
+
+												onClick={(e) => {
+													e.stopPropagation();
+													handleTrashMemoDialogOpenClick(index);
+												}}
+											>
+												<DeleteOutlineIcon color={index === selectedDeleteIndex ? "error" : undefined} />
+											</Button>
 										</ListItem>
 									);
 								})}
@@ -139,6 +164,7 @@ export default function main() {
 						</Paper>
 					)}
 				</Grid>
+				{/* 左下段　ゴミ箱 */}
 				<Grid>
 					<Paper
 						sx={{

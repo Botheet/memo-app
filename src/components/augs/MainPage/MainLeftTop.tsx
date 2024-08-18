@@ -6,9 +6,8 @@ import { useRef } from "react";
 
 interface ContentTextBox1Props {
 	handleCreateButtonClick: () => void;
-	handleDeleteButtonClick: () => void;
 }
-export const MainLeftTop: React.FC<ContentTextBox1Props> = ({ handleCreateButtonClick, handleDeleteButtonClick }) => {
+export const MainLeftTop: React.FC<ContentTextBox1Props> = ({ handleCreateButtonClick }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	if (inputRef.current) {
@@ -20,15 +19,6 @@ export const MainLeftTop: React.FC<ContentTextBox1Props> = ({ handleCreateButton
 			<Button fullWidth style={{ justifyContent: "flex-start" }} onClick={handleCreateButtonClick}>
 				<AddIcon />
 				<Typography fontSize="12px">新規作成</Typography>
-			</Button>
-			<Button
-				fullWidth
-				items-align="flex-start"
-				style={{ justifyContent: "flex-start" }}
-				onClick={handleDeleteButtonClick}
-			>
-				<DeleteOutlineIcon />
-				<Typography fontSize="12px">削除</Typography>
 			</Button>
 		</Box>
 	);
