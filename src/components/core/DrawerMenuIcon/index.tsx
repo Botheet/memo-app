@@ -27,7 +27,7 @@ const DrawerMenuIcon: React.FC = () => {
 		right: false
 	});
 
-	const drawerMenuItems = ["ログイン・ログアウト", "", "", ""];
+	const drawerMenuItems = ["ログイン・ログアウト"];
 
 	const toggleDrawer = (anchor: Anchor, open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
 		if (
@@ -53,7 +53,7 @@ const DrawerMenuIcon: React.FC = () => {
 			onKeyDown={toggleDrawer(anchor, false)}
 		>
 			<List>
-				{["閉じる", "メモ", "", ""].map((text, index) => (
+				{["閉じる", "メモ"].map((text, index) => (
 					<ListItem key={text} disablePadding>
 						<ListItemButton>
 							<ListItemIcon>{iconListMenu[index]}</ListItemIcon>
@@ -62,6 +62,7 @@ const DrawerMenuIcon: React.FC = () => {
 					</ListItem>
 				))}
 			</List>
+
 			<Divider />
 			<List>
 				{drawerMenuItems.map((text, index) => (
