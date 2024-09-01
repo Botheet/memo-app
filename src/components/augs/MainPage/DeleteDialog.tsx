@@ -5,13 +5,37 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { TrashMemoMutationVariables } from "@/types";
 
 type DeleteDialogprops = {
 	handleClose: () => void;
 	open: boolean;
+	handlePutTrashMemo: (putBody: TrashMemoMutationVariables) => void;
+	id: number;
+	title: string;
+	content: string;
 };
 
-export const DeleteDialog: React.FC<DeleteDialogprops> = ({ handleClose, open }) => {
+export const DeleteDialog: React.FC<DeleteDialogprops> = ({
+	handleClose,
+	open,
+	handlePutTrashMemo,
+	id,
+	title,
+	content
+}) => {
+	const putBody: TrashMemoMutationVariables = {
+		id,
+		putDate: {
+			title: title,
+			content: content,
+			complete_flag: true
+		}
+	};
+	const handleDeleteButtonClick = () => {
+		handlePutTrashMemo(putBody);
+		handleClose();
+	};
 	return (
 		<React.Fragment>
 			<Dialog
@@ -27,7 +51,7 @@ export const DeleteDialog: React.FC<DeleteDialogprops> = ({ handleClose, open })
 					</DialogContentText>
 				</DialogContent>
 				<DialogActions>
-					<Button onClick={handleClose}>削除</Button>
+					<Button onClick={handleDeleteButtonClick}>削除</Button>
 					<Button onClick={handleClose} autoFocus>
 						キャンセル
 					</Button>

@@ -5,8 +5,8 @@ import { MemoForm } from "@/components/augs/MainPage/MemoForm";
 import { MainLoadingList } from "@/components/augs/MainPage/MainLoadingList";
 import { TrashBoxButtom } from "@/components/core/TrashBoxButtom";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useGetMemos, usePostNewMemoApi } from "@/modules/apiHooks/hooks";
-import { MemoContents, PostNewMemoFormBody } from "@/types";
+import { useGetMemos, usePostNewMemoApi, usePutTrashMemoRequestApi } from "@/modules/apiHooks/hooks";
+import { MemoContents, PostNewMemoFormBody, TrashMemoMutationVariables } from "@/types";
 import { Box, Button, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
 import Link from "next/link";
 import React, { use, useEffect, useRef, useState } from "react";
@@ -15,7 +15,7 @@ import { Padding } from "@mui/icons-material";
 import { DeleteDialog } from "./DeleteDialog";
 
 export default function main() {
-	const { getMemosData, getMemosError, getMemosIsPending } = useGetMemos();
+	const { getMemosData, getMemosError, getMemosIsPending, refetchMemosData } = useGetMemos();
 
 	const [open, setOpen] = React.useState(false);
 
@@ -31,7 +31,6 @@ export default function main() {
 	const [selectedMemoIndex, setSelectedMemoIndex] = useState(0);
 
 	// 編集中であることを管理するステートを追加
-
 	const [newMemoCreate, setNewMemoCreate] = useState(false);
 
 	const inputRef = useRef<HTMLInputElement>(null);
@@ -47,27 +46,43 @@ export default function main() {
 		// console.log(inputRef);
 	}, [selectedMemoIndex, getMemosData]);
 
+	// ゴミ捨てダイアログの挙動
+
+	const [selectedTrashMemoId, setSelectedTrashMemoId] = useState<number | null>(null);
 	const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedDeleteIndex, setSelectedDeleteIndex] = useState<number | null>(null);
-
-	const handleTrashMemoDialogOpenClick = (index: number) => {
+	const handleTrashMemoDialogOpenClick = (index: number, id: number) => {
 		setDeleteDialogOpen(true);
 		console.log("deleteDialog");
 		setSelectedDeleteIndex(index);
+		setSelectedTrashMemoId(id);
 	};
 	const handleTrashMemoDialogClose = () => {
 		setDeleteDialogOpen(false);
 		setSelectedDeleteIndex(null);
+		setSelectedTrashMemoId(null);
 	};
 
-	// 削除を書く idを受け取って、そのidを使ってリクエストをするようにする。
-	//API。/api/memos/{id}/
+	//ゴミ捨てダイアログ内の削除ボタンの挙動
+	const { mutationPutTrashMemo } = usePutTrashMemoRequestApi();
+	const onSubmitPutTrashMemo = (putBody: TrashMemoMutationVariables) => {
+		mutationPutTrashMemo.mutate(putBody, {
+			onSuccess: () => {
+				// データの再取得や状態の更新処理をここに記述
+				refetchMemosData();
+			}
+		});
+	};
 
+	const selectedTrashMemosArrayFilter = getMemosData
+		? getMemosData.filter((memo: MemoContents) => memo.id === selectedTrashMemoId)
+		: [];
+
+	// 新規作成ボタンをクリックした際の挙動。本文にフォーカスする機能付き。
 	const handleCreateButtonClick = () => {
 		setNewMemoCreate(true);
 		handleFocus();
 	};
-
 	const handleExitWithoutSavingClick = () => {
 		setNewMemoCreate(false);
 	};
@@ -97,7 +112,14 @@ export default function main() {
 		<Grid container spacing={0.5} marginTop={8}>
 			{/* 新規メモを保存せずに他のメモへ移動しようとした場合のアラート（他ボタンへは未対応） */}
 			<AlertDialog open={open} handleClose={handleClose} handleExitWithoutSavingClick={handleExitWithoutSavingClick} />
-			<DeleteDialog open={isDeleteDialogOpen} handleClose={handleTrashMemoDialogClose} />
+			<DeleteDialog
+				open={isDeleteDialogOpen}
+				handleClose={handleTrashMemoDialogClose}
+				handlePutTrashMemo={onSubmitPutTrashMemo}
+				id={selectedTrashMemoId}
+				title={selectedTrashMemosArrayFilter.length > 0 ? selectedTrashMemosArrayFilter[0].title : ""}
+				content={selectedTrashMemosArrayFilter.length > 0 ? selectedTrashMemosArrayFilter[0].content : ""}
+			/>
 			{/* 左のフレーム */}
 			<Grid item xs={3.5}>
 				<Grid>
@@ -134,32 +156,33 @@ export default function main() {
 										</ListItemButton>
 									</ListItem>
 								)}
-								{getMemosData.map((memo: MemoContents, index: number) => {
-									return (
-										<ListItem key={memo.id} disablePadding sx={{ display: "flex", flexDirection: "row" }}>
-											<ListItemButton
-												onClick={() => {
-													handlePrevMemoListClick(); //ダイアログで注意→このファルスをまとめた関数を作ってここにいれる
-													setSelectedMemoIndex(index);
-												}}
-												sx={{ backgroundColor: index === selectedDeleteIndex ? "pink" : undefined }}
-												selected={selectedMemoIndex === index && selectedDeleteIndex === null && !newMemoCreate}
-											>
-												<ListItemText primary={memo.title} />
-											</ListItemButton>
-											<Button
-												// color={index === selectedDeleteIndex ? "error" : undefined}
-
-												onClick={(e) => {
-													e.stopPropagation();
-													handleTrashMemoDialogOpenClick(index);
-												}}
-											>
-												<DeleteOutlineIcon color={index === selectedDeleteIndex ? "error" : undefined} />
-											</Button>
-										</ListItem>
-									);
-								})}
+								{getMemosData
+									.filter((memo: MemoContents) => !memo.complete_flag)
+									.map((memo: MemoContents, index: number) => {
+										return (
+											<ListItem key={memo.id} disablePadding sx={{ display: "flex", flexDirection: "row" }}>
+												<ListItemButton
+													onClick={() => {
+														handlePrevMemoListClick(); //ダイアログで注意→このファルスをまとめた関数を作ってここにいれる
+														setSelectedMemoIndex(index);
+													}}
+													sx={{ backgroundColor: index === selectedDeleteIndex ? "pink" : undefined }}
+													selected={selectedMemoIndex === index && selectedDeleteIndex === null && !newMemoCreate}
+												>
+													<ListItemText primary={memo.title} />
+												</ListItemButton>
+												<Button
+													// color={index === selectedDeleteIndex ? "error" : undefined}
+													onClick={(e) => {
+														e.stopPropagation();
+														handleTrashMemoDialogOpenClick(index, memo.id);
+													}}
+												>
+													<DeleteOutlineIcon color={index === selectedDeleteIndex ? "error" : undefined} />
+												</Button>
+											</ListItem>
+										);
+									})}
 							</List>
 						</Paper>
 					)}
