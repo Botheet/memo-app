@@ -1,5 +1,5 @@
 import { apiClient } from "@/libs/apiClient";
-import { LoginFormBody, PostNewMemoFormBody, TrashMemoMutationVariables } from "@/types";
+import { LoginFormBody, PostNewMemoFormBody, ReturnMemoMutationVariables, TrashMemoMutationVariables } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
@@ -98,4 +98,28 @@ export const usePutTrashMemoRequestApi = () => {
 		}
 	});
 	return { mutationPutTrashMemo: mutation };
+};
+
+//ゴミ箱からもとに戻す
+export const useReturnMemoRequestApi = () => {
+	const putReturnMemoRequestApi = async ({ id, putDate }: ReturnMemoMutationVariables) => {
+		const token = localStorage.getItem(`accessToken`); // トークンを取得
+		if (!token) {
+			throw new Error("認証トークンが見つかりません");
+		}
+		const response = await apiClient.put(`/api/memos/${id}/`, putDate);
+
+		return response;
+	};
+
+	const mutation = useMutation({
+		mutationFn: putReturnMemoRequestApi,
+		onSuccess: (response) => {
+			console.log("リターンの対象にしました", response);
+		},
+		onError: (error) => {
+			console.error("Error registering user失敗:", error);
+		}
+	});
+	return { mutationPutReturnMemo: mutation };
 };
