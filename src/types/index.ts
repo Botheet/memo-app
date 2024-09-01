@@ -24,10 +24,6 @@ export type PostNewMemoFormBody = {
 	complete_flag?: boolean;
 };
 
-// export type TrashMemoRequest = {
-// 	complete_flag: true;
-// };
-
 // ゴミ箱に移動するためのリクエストデータとIDを含む型を定義
 export type TrashMemoMutationVariables = {
 	id: number;
@@ -38,6 +34,12 @@ export type TrashMemoMutationVariables = {
 	};
 };
 
-// export type ReturnMemoRequest = {
-// 	complete_flag: false;
-// };
+// ゴミ箱からメインに戻すためのリクエストデータとIDを含む型を定義
+export type ReturnMemoMutationVariables = {
+	id: number;
+	putDate: {
+		title: string;
+		content: string;
+		complete_flag: false;
+	};
+};

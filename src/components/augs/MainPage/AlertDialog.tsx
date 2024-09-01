@@ -14,7 +14,7 @@ type AlertDialogprops = {
 
 export const AlertDialog: React.FC<AlertDialogprops> = ({ handleClose, open, handleExitWithoutSavingClick }) => {
 	return (
-		<React.Fragment>
+		<>
 			<Dialog
 				open={open}
 				onClose={handleClose}
@@ -42,6 +42,6 @@ export const AlertDialog: React.FC<AlertDialogprops> = ({ handleClose, open, han
 					</Button>
 				</DialogActions>
 			</Dialog>
-		</React.Fragment>
+		</>
 	);
 };

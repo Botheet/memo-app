@@ -37,7 +37,7 @@ export const DeleteDialog: React.FC<DeleteDialogprops> = ({
 		handleClose();
 	};
 	return (
-		<React.Fragment>
+		<>
 			<Dialog
 				open={open}
 				onClose={handleClose}
@@ -57,6 +57,6 @@ export const DeleteDialog: React.FC<DeleteDialogprops> = ({
 					</Button>
 				</DialogActions>
 			</Dialog>
-		</React.Fragment>
+		</>
 	);
 };

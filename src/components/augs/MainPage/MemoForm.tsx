@@ -25,14 +25,13 @@ export const MemoForm = forwardRef<HTMLInputElement, MemoFormProps>(
 			formState: { errors }
 		} = useForm({ defaultValues: { title, content } });
 
+		//ToDo:保存機能実装のときに使用
 		const onSubmit = (data) => {};
 
 		useEffect(() => {
 			setValue("content", content);
 			setValue("title", title);
 		}, [content, title]);
-		// console.log(content);
-		// console.log(watch("content"));
 
 		return (
 			<Box
@@ -52,9 +51,8 @@ export const MemoForm = forwardRef<HTMLInputElement, MemoFormProps>(
 					maxRows="23"
 					fullWidth
 					inputRef={inputRef}
-					// ref={inputRef}
 					{...register("content")}
-				/>{" "}
+				/>
 				<Fab variant="extended">
 					<NavigationIcon sx={{ mr: 1 }} />
 					Extended

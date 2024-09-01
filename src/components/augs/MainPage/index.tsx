@@ -43,7 +43,6 @@ export default function main() {
 
 	useEffect(() => {
 		handleFocus();
-		// console.log(inputRef);
 	}, [selectedMemoIndex, getMemosData]);
 
 	// ゴミ捨てダイアログの挙動
@@ -53,7 +52,6 @@ export default function main() {
 	const [selectedDeleteIndex, setSelectedDeleteIndex] = useState<number | null>(null);
 	const handleTrashMemoDialogOpenClick = (index: number, id: number) => {
 		setDeleteDialogOpen(true);
-		console.log("deleteDialog");
 		setSelectedDeleteIndex(index);
 		setSelectedTrashMemoId(id);
 	};
@@ -87,21 +85,16 @@ export default function main() {
 		setNewMemoCreate(false);
 	};
 
-	// useEffect(() => {}, []);
 	const handlePrevMemoListClick = () => {
 		if (newMemoCreate) {
 			handleClickOpen();
 		}
-		// setNewMemoCreate(false) 後で移動させる
 	};
 
 	useEffect(() => {
 		if (!newMemoCreate) {
-			// console.log("click");
 		}
 	}, [newMemoCreate]);
-
-	// const onSubmitEditMemo = () => {};
 
 	const { mutationPostNewMemo } = usePostNewMemoApi();
 	const onSubmitPostNewMemo = (postBody: PostNewMemoFormBody) => {
@@ -209,7 +202,6 @@ export default function main() {
 				<Grid>
 					<Paper
 						sx={{
-							// height: "auto",
 							minHeight: "580px",
 							marginTop: "8px",
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
