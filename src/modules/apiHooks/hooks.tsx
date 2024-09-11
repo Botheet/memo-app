@@ -1,5 +1,11 @@
 import { apiClient } from "@/libs/apiClient";
-import { LoginFormBody, PostNewMemoFormBody, ReturnMemoMutationVariables, TrashMemoMutationVariables } from "@/types";
+import {
+	CompDeleteMutationVariables as CompDeleteMutationVariables,
+	LoginFormBody,
+	PostNewMemoFormBody,
+	ReturnMemoMutationVariables,
+	TrashMemoMutationVariables
+} from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
@@ -122,4 +128,28 @@ export const useReturnMemoRequestApi = () => {
 		}
 	});
 	return { mutationPutReturnMemo: mutation };
+};
+
+//完全削除
+export const useCompDeleteRequestApi = () => {
+	const putCompDeleteRequestApi = async ({ id }: CompDeleteMutationVariables) => {
+		const token = localStorage.getItem(`accessToken`); // トークンを取得
+		if (!token) {
+			throw new Error("認証トークンが見つかりません");
+		}
+		const response = await apiClient.delete(`/api/memos/${id}/`);
+
+		return response;
+	};
+
+	const mutation = useMutation({
+		mutationFn: putCompDeleteRequestApi,
+		onSuccess: (response) => {
+			console.log("完全削除の対象にしました", response);
+		},
+		onError: (error) => {
+			console.error("Error registering user失敗:", error);
+		}
+	});
+	return { mutationdeleteCompDelete: mutation };
 };

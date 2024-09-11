@@ -1,7 +1,7 @@
 "use client";
 
 import { MainLeftTop } from "@/components/augs/MainPage/MainLeftTop";
-import { MemoForm } from "@/components/augs/MainPage/MemoForm";
+import { MemoForm } from "@/components/augs/TrashBoxPage/TrashedMemoForm";
 import { MainLoadingList } from "@/components/augs/MainPage/MainLoadingList";
 import { TrashBoxButtom } from "@/components/core/TrashBoxButtom";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
@@ -10,8 +10,11 @@ import { MemoContents, PostNewMemoFormBody, ReturnMemoMutationVariables } from "
 import { Box, Button, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
 import Link from "next/link";
 import React, { use, useEffect, useRef, useState } from "react";
-import DriveFileMoveIcon from "@mui/icons-material/DriveFileMove";
+
 import { ReturnDialog } from "./ReturnMemoDialog";
+import { LinkToMainPageButtom } from "@/components/core/LinkToMainPage";
+import { TrashBoxLeftTop } from "./TrashBoxLeftTop";
+import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
 
 export default function main() {
 	const { getMemosData, getMemosError, getMemosIsPending, refetchMemosData } = useGetMemos();
@@ -112,6 +115,17 @@ export default function main() {
 			/>
 			{/* 左のフレーム */}
 			<Grid item xs={3.5}>
+				<Grid>
+					{/* <Paper
+						sx={{
+							height: "auto",
+							minHeight: "80px",
+							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
+						}}
+					> */}
+					<TrashBoxLeftTop />
+					{/* </Paper> */}
+				</Grid>
 				{/* 左中段　メモリスト */}
 				<Grid>
 					{getMemosIsPending || !getMemosData ? (
@@ -122,7 +136,7 @@ export default function main() {
 						<Paper
 							sx={{
 								height: "auto",
-								minHeight: "500px",
+								minHeight: "600px",
 								backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 							}}
 						>
@@ -156,7 +170,7 @@ export default function main() {
 														handleReturnMemoDialogOpenClick(index, memo.id);
 													}}
 												>
-													<DriveFileMoveIcon color={index === selectedReturnIndex ? "info" : undefined} />
+													<RestoreFromTrashIcon color={index === selectedReturnIndex ? "info" : undefined} />
 												</Button>
 											</ListItem>
 										);
@@ -165,7 +179,7 @@ export default function main() {
 						</Paper>
 					)}
 				</Grid>
-				{/* 左下段　ゴミ箱 */}
+				{/* 左下段　mainpageへもどる */}
 				<Grid>
 					<Paper
 						sx={{
@@ -174,10 +188,8 @@ export default function main() {
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
-						<Link href="/trashBox">
-							<TrashBoxButtom
-							// メモ編集中に移動しようとしたときにダイアログでるようにする
-							/>
+						<Link href="/mainPage">
+							<LinkToMainPageButtom />
 						</Link>
 					</Paper>
 				</Grid>

@@ -43,3 +43,8 @@ export type ReturnMemoMutationVariables = {
 		complete_flag: false;
 	};
 };
+
+// 完全削除のリクエストデータとIDを含む型を定義
+export type CompDeleteVariables = {
+	id: number;
+};
