@@ -130,26 +130,39 @@ export const useReturnMemoRequestApi = () => {
 	return { mutationPutReturnMemo: mutation };
 };
 
-//完全削除
+// //完全削除
+// メモを完全削除するためのAPIリクエストを行うカスタムフック
 export const useCompDeleteRequestApi = () => {
-	const putCompDeleteRequestApi = async ({ id }: CompDeleteMutationVariables) => {
-		const token = localStorage.getItem(`accessToken`); // トークンを取得
+	// メモの完全削除を行う非同期関数
+	const deleteCompDeleteRequestApi = async ({ id }: CompDeleteMutationVariables) => {
+		// 認証トークンをlocalStorageから取得
+		const token = localStorage.getItem(`accessToken`);
+		// トークンが存在しない場合はエラーを投げる
 		if (!token) {
 			throw new Error("認証トークンが見つかりません");
 		}
+		// APIクライアントを使用して指定IDのメモを完全削除
 		const response = await apiClient.delete(`/api/memos/${id}/`);
 
+		// APIのレスポンスを返す
 		return response;
 	};
+	// ↑ deleteCompDeleteRequestApi関数の定義終了
 
+	// react-queryのuseMutationを使用して、削除APIの呼び出しを管理
 	const mutation = useMutation({
-		mutationFn: putCompDeleteRequestApi,
+		// deleteCompDeleteRequestApi関数をmutationの関数として登録
+		mutationFn: deleteCompDeleteRequestApi,
+		// 削除が成功した場合のコールバック処理
 		onSuccess: (response) => {
 			console.log("完全削除の対象にしました", response);
 		},
+		// エラーが発生した場合のコールバック処理
 		onError: (error) => {
 			console.error("Error registering user失敗:", error);
 		}
 	});
-	return { mutationdeleteCompDelete: mutation };
+
+	// 削除用のmutationを返す
+	return { mutationDeleteCompDelete: mutation };
 };

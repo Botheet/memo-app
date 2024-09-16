@@ -1,26 +1,22 @@
 "use client";
 
-import { MainLeftTop } from "@/components/augs/MainPage/MainLeftTop";
 import { MemoForm } from "@/components/augs/TrashBoxPage/TrashedMemoForm";
 import { MainLoadingList } from "@/components/augs/MainPage/MainLoadingList";
-import { TrashBoxButtom } from "@/components/core/TrashBoxButtom";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import { useGetMemos, usePostNewMemoApi, useReturnMemoRequestApi } from "@/modules/apiHooks/hooks";
-import { MemoContents, PostNewMemoFormBody, ReturnMemoMutationVariables } from "@/types";
+import { useGetMemos, useReturnMemoRequestApi } from "@/modules/apiHooks/hooks";
+import { MemoContents, ReturnMemoMutationVariables } from "@/types";
 import { Box, Button, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
 import Link from "next/link";
-import React, { use, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import { ReturnDialog } from "./ReturnMemoDialog";
 import { LinkToMainPageButtom } from "@/components/core/LinkToMainPage";
 import { TrashBoxLeftTop } from "./TrashBoxLeftTop";
 import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
+import { TrashMenu } from "./TrashMenu";
 
 export default function main() {
 	const { getMemosData, getMemosError, getMemosIsPending, refetchMemosData } = useGetMemos();
-
 	const [open, setOpen] = React.useState(false);
-
 	// dialog
 	const handleClickOpen = () => {
 		setOpen(true);
@@ -31,9 +27,6 @@ export default function main() {
 	};
 
 	const [selectedMemoIndex, setSelectedMemoIndex] = useState(0);
-
-	// 編集中であることを管理するステートを追加
-	const [newMemoCreate, setNewMemoCreate] = useState(false);
 
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -63,7 +56,7 @@ export default function main() {
 		setSelectedReturnMemoId(null);
 	};
 
-	//ゴミ捨てダイアログ内の削除ボタンの挙動
+	//ゴミ捨てダイアログ内のもとに戻すの挙動
 	const { mutationPutReturnMemo } = useReturnMemoRequestApi();
 	const onSubmitPutReturnMemo = (putBody: ReturnMemoMutationVariables) => {
 		mutationPutReturnMemo.mutate(putBody, {
@@ -77,31 +70,6 @@ export default function main() {
 	const selectedReturnMemosArrayFilter = getMemosData
 		? getMemosData.filter((memo: MemoContents) => memo.id === selectedReturnMemoId)
 		: [];
-
-	// 新規作成ボタンをクリックした際の挙動。本文にフォーカスする機能付き。
-	const handleCreateButtonClick = () => {
-		setNewMemoCreate(true);
-		handleFocus();
-	};
-	const handleExitWithoutSavingClick = () => {
-		setNewMemoCreate(false);
-	};
-
-	const handlePrevMemoListClick = () => {
-		if (newMemoCreate) {
-			handleClickOpen();
-		}
-	};
-
-	useEffect(() => {
-		if (!newMemoCreate) {
-		}
-	}, [newMemoCreate]);
-
-	const { mutationPostNewMemo } = usePostNewMemoApi();
-	const onSubmitPostNewMemo = (postBody: PostNewMemoFormBody) => {
-		mutationPostNewMemo.mutate(postBody);
-	};
 
 	return (
 		<Grid container spacing={0.5} marginTop={8}>
@@ -141,13 +109,6 @@ export default function main() {
 							}}
 						>
 							<List>
-								{newMemoCreate && (
-									<ListItem disablePadding>
-										<ListItemButton selected={newMemoCreate}>
-											<ListItemText primary={"新しいメモ"} />
-										</ListItemButton>
-									</ListItem>
-								)}
 								{getMemosData
 									.filter((memo: MemoContents) => memo.complete_flag)
 									.map((memo: MemoContents, index: number) => {
@@ -155,11 +116,10 @@ export default function main() {
 											<ListItem key={memo.id} disablePadding sx={{ display: "flex", flexDirection: "row" }}>
 												<ListItemButton
 													onClick={() => {
-														handlePrevMemoListClick(); //ダイアログで注意→このファルスをまとめた関数を作ってここにいれる
 														setSelectedMemoIndex(index);
 													}}
 													sx={{ backgroundColor: index === selectedReturnIndex ? "skyblue" : undefined }}
-													selected={selectedMemoIndex === index && selectedReturnIndex === null && !newMemoCreate}
+													selected={selectedMemoIndex === index && selectedReturnIndex === null}
 												>
 													<ListItemText primary={memo.title} />
 												</ListItemButton>
@@ -172,6 +132,12 @@ export default function main() {
 												>
 													<RestoreFromTrashIcon color={index === selectedReturnIndex ? "info" : undefined} />
 												</Button>
+												<TrashMenu
+													id={memo.id}
+													title={memo.title}
+													content={memo.content}
+													handlePutReturnMemo={onSubmitPutReturnMemo}
+												/>
 											</ListItem>
 										);
 									})}
@@ -199,17 +165,16 @@ export default function main() {
 				<Grid>
 					<Paper
 						sx={{
-							minHeight: "580px",
+							Height: "1000px",
 							marginTop: "8px",
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
 						{getMemosIsPending || !getMemosData ? undefined : (
 							<MemoForm
-								content={!newMemoCreate ? getMemosData[selectedMemoIndex].content : ""}
-								title={!newMemoCreate ? getMemosData[selectedMemoIndex].title : ""}
+								content={getMemosData[selectedMemoIndex].content}
+								title={getMemosData[selectedMemoIndex].title}
 								ref={inputRef}
-								onSubmitPostNewMemo={onSubmitPostNewMemo}
 							/>
 						)}
 					</Paper>

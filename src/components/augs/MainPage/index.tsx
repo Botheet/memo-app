@@ -9,9 +9,8 @@ import { useGetMemos, usePostNewMemoApi, usePutTrashMemoRequestApi } from "@/mod
 import { MemoContents, PostNewMemoFormBody, TrashMemoMutationVariables } from "@/types";
 import { Box, Button, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
 import Link from "next/link";
-import React, { use, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AlertDialog } from "./AlertDialog";
-import { Padding } from "@mui/icons-material";
 import { DeleteDialog } from "./DeleteDialog";
 
 export default function main() {
