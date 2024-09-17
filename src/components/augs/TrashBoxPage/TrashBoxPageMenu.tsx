@@ -8,12 +8,13 @@ import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Box, Button, Divider } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { ReturnMemoMutationVariables } from "@/types";
+import { CompDeleteMutationVariables, ReturnMemoMutationVariables } from "@/types";
 
 type TrashBoxPageMenuprops = {
 	handleClose: () => void;
 	// open: boolean;
 	handlePutReturnMemo: (putBody: ReturnMemoMutationVariables) => void;
+	handleCompDelteMemo: (deleteBody: CompDeleteMutationVariables) => void;
 	id: number;
 	title: string;
 	content: string;
@@ -23,6 +24,7 @@ export const TrashBoxPageMenu: React.FC<TrashBoxPageMenuprops> = ({
 	handleClose,
 	// open,
 	handlePutReturnMemo,
+	handleCompDelteMemo,
 	id,
 	title,
 	content
@@ -41,6 +43,14 @@ export const TrashBoxPageMenu: React.FC<TrashBoxPageMenuprops> = ({
 	};
 	console.log(id, title, content);
 
+	const deleteBody: CompDeleteMutationVariables = {
+		id
+	};
+	const handleCompDeleteButtonClick = () => {
+		handleCompDelteMemo(deleteBody);
+		handleClose();
+	};
+
 	return (
 		<Box sx={{ width: 320, maxWidth: "100%" }}>
 			<MenuList>
@@ -53,12 +63,14 @@ export const TrashBoxPageMenu: React.FC<TrashBoxPageMenuprops> = ({
 					</MenuItem>
 				</Button>
 
-				<MenuItem>
-					<ListItemIcon>
-						<DeleteForeverIcon fontSize="small" />
-					</ListItemIcon>
-					<ListItemText>削除する</ListItemText>
-				</MenuItem>
+				<Button onClick={handleCompDeleteButtonClick}>
+					<MenuItem>
+						<ListItemIcon>
+							<DeleteForeverIcon fontSize="small" />
+						</ListItemIcon>
+						<ListItemText>削除する</ListItemText>
+					</MenuItem>
+				</Button>
 			</MenuList>
 
 			<Divider />

@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import { TrashBoxPageMenu } from "./TrashBoxPageMenu";
-import { ReturnMemoMutationVariables } from "@/types";
+import { CompDeleteMutationVariables, ReturnMemoMutationVariables } from "@/types";
 import { Box } from "@mui/material";
 
 type TrashMenuProps = {
@@ -11,9 +11,16 @@ type TrashMenuProps = {
 	title: string;
 	content: string;
 	handlePutReturnMemo: (putBody: ReturnMemoMutationVariables) => void;
+	handleCompDelteMemo: (deleteBody: CompDeleteMutationVariables) => void;
 };
 
-export const TrashMenu: React.FC<TrashMenuProps> = ({ id, title, content, handlePutReturnMemo }) => {
+export const TrashMenu: React.FC<TrashMenuProps> = ({
+	id,
+	title,
+	content,
+	handlePutReturnMemo,
+	handleCompDelteMemo
+}) => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -49,6 +56,7 @@ export const TrashMenu: React.FC<TrashMenuProps> = ({ id, title, content, handle
 					title={title}
 					content={content}
 					handlePutReturnMemo={handlePutReturnMemo}
+					handleCompDelteMemo={handleCompDelteMemo}
 				/>
 			</Menu>
 		</Box>

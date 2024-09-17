@@ -1,9 +1,7 @@
-import { PostNewMemoFormBody } from "@/types";
-import { Box, Button, Fab, Paper, TextField, Typography } from "@mui/material";
+import { Box, TextField, Typography } from "@mui/material";
 import { styled } from "@mui/system";
-import { forwardRef, useEffect, useRef } from "react";
+import { forwardRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import NavigationIcon from "@mui/icons-material/Add";
 
 const StyledTextField = styled(TextField, { name: "StyledTextField" })({
 	"& .MuiInputBase": { height: 550 }

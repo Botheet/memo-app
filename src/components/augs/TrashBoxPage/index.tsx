@@ -2,8 +2,8 @@
 
 import { MemoForm } from "@/components/augs/TrashBoxPage/TrashedMemoForm";
 import { MainLoadingList } from "@/components/augs/MainPage/MainLoadingList";
-import { useGetMemos, useReturnMemoRequestApi } from "@/modules/apiHooks/hooks";
-import { MemoContents, ReturnMemoMutationVariables } from "@/types";
+import { useCompDeleteRequestApi, useGetMemos, useReturnMemoRequestApi } from "@/modules/apiHooks/hooks";
+import { CompDeleteMutationVariables, MemoContents, ReturnMemoMutationVariables } from "@/types";
 import { Box, Button, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
@@ -41,7 +41,6 @@ export default function main() {
 	}, [selectedMemoIndex, getMemosData]);
 
 	// ゴミ捨てダイアログの挙動
-
 	const [selectedReturnMemoId, setSelectedReturnMemoId] = useState<number | null>(null);
 	const [isReturnDialogOpen, setReturnDialogOpen] = useState(false);
 	const [selectedReturnIndex, setSelectedReturnIndex] = useState<number | null>(null);
@@ -54,6 +53,16 @@ export default function main() {
 		setReturnDialogOpen(false);
 		setSelectedReturnIndex(null);
 		setSelectedReturnMemoId(null);
+	};
+
+	const { mutationDeleteCompDelete } = useCompDeleteRequestApi();
+	const onSubmitCompDelete = (deleteBody: CompDeleteMutationVariables) => {
+		mutationDeleteCompDelete.mutate(deleteBody, {
+			onSuccess: () => {
+				// データの再取得や状態の更新処理をここに記述
+				refetchMemosData();
+			}
+		});
 	};
 
 	//ゴミ捨てダイアログ内のもとに戻すの挙動
@@ -137,6 +146,7 @@ export default function main() {
 													title={memo.title}
 													content={memo.content}
 													handlePutReturnMemo={onSubmitPutReturnMemo}
+													handleCompDelteMemo={onSubmitCompDelete}
 												/>
 											</ListItem>
 										);

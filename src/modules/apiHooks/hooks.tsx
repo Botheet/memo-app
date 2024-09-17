@@ -148,7 +148,6 @@ export const useCompDeleteRequestApi = () => {
 		return response;
 	};
 	// ↑ deleteCompDeleteRequestApi関数の定義終了
-
 	// react-queryのuseMutationを使用して、削除APIの呼び出しを管理
 	const mutation = useMutation({
 		// deleteCompDeleteRequestApi関数をmutationの関数として登録
