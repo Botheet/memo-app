@@ -1,5 +1,11 @@
 import { apiClient } from "@/libs/apiClient";
-import { LoginFormBody, PostNewMemoFormBody, TrashMemoMutationVariables } from "@/types";
+import {
+	CompDeleteMutationVariables as CompDeleteMutationVariables,
+	LoginFormBody,
+	PostNewMemoFormBody,
+	ReturnMemoMutationVariables,
+	TrashMemoMutationVariables
+} from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
@@ -98,4 +104,64 @@ export const usePutTrashMemoRequestApi = () => {
 		}
 	});
 	return { mutationPutTrashMemo: mutation };
+};
+
+//ゴミ箱からもとに戻す
+export const useReturnMemoRequestApi = () => {
+	const putReturnMemoRequestApi = async ({ id, putDate }: ReturnMemoMutationVariables) => {
+		const token = localStorage.getItem(`accessToken`); // トークンを取得
+		if (!token) {
+			throw new Error("認証トークンが見つかりません");
+		}
+		const response = await apiClient.put(`/api/memos/${id}/`, putDate);
+
+		return response;
+	};
+
+	const mutation = useMutation({
+		mutationFn: putReturnMemoRequestApi,
+		onSuccess: (response) => {
+			console.log("リターンの対象にしました", response);
+		},
+		onError: (error) => {
+			console.error("Error registering user失敗:", error);
+		}
+	});
+	return { mutationPutReturnMemo: mutation };
+};
+
+// //完全削除
+// メモを完全削除するためのAPIリクエストを行うカスタムフック
+export const useCompDeleteRequestApi = () => {
+	// メモの完全削除を行う非同期関数
+	const deleteCompDeleteRequestApi = async ({ id }: CompDeleteMutationVariables) => {
+		// 認証トークンをlocalStorageから取得
+		const token = localStorage.getItem(`accessToken`);
+		// トークンが存在しない場合はエラーを投げる
+		if (!token) {
+			throw new Error("認証トークンが見つかりません");
+		}
+		// APIクライアントを使用して指定IDのメモを完全削除
+		const response = await apiClient.delete(`/api/memos/${id}/`);
+
+		// APIのレスポンスを返す
+		return response;
+	};
+	// ↑ deleteCompDeleteRequestApi関数の定義終了
+	// react-queryのuseMutationを使用して、削除APIの呼び出しを管理
+	const mutation = useMutation({
+		// deleteCompDeleteRequestApi関数をmutationの関数として登録
+		mutationFn: deleteCompDeleteRequestApi,
+		// 削除が成功した場合のコールバック処理
+		onSuccess: (response) => {
+			console.log("完全削除の対象にしました", response);
+		},
+		// エラーが発生した場合のコールバック処理
+		onError: (error) => {
+			console.error("Error registering user失敗:", error);
+		}
+	});
+
+	// 削除用のmutationを返す
+	return { mutationDeleteCompDelete: mutation };
 };

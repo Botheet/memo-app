@@ -9,9 +9,8 @@ import { useGetMemos, usePostNewMemoApi, usePutTrashMemoRequestApi } from "@/mod
 import { MemoContents, PostNewMemoFormBody, TrashMemoMutationVariables } from "@/types";
 import { Box, Button, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
 import Link from "next/link";
-import React, { use, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AlertDialog } from "./AlertDialog";
-import { Padding } from "@mui/icons-material";
 import { DeleteDialog } from "./DeleteDialog";
 
 export default function main() {
@@ -116,16 +115,16 @@ export default function main() {
 			{/* 左のフレーム */}
 			<Grid item xs={3.5}>
 				<Grid>
-					<Paper
+					{/* <Paper
 						sx={{
 							height: "auto",
 							minHeight: "80px",
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
-					>
-						{/* 左上（新規・削除） */}
-						<MainLeftTop handleCreateButtonClick={handleCreateButtonClick} />
-					</Paper>
+					> */}
+					{/* 左上（新規・削除） */}
+					<MainLeftTop handleCreateButtonClick={handleCreateButtonClick} />
+					{/* </Paper> */}
 				</Grid>
 				{/* 左中段　メモリスト */}
 				<Grid>
@@ -137,7 +136,7 @@ export default function main() {
 						<Paper
 							sx={{
 								height: "auto",
-								minHeight: "500px",
+								minHeight: "600px",
 								backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 							}}
 						>

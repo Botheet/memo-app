@@ -1,8 +1,7 @@
 "use client";
 
-// export default function TrashBox() {
-// 	return <TrashBoxPage />;
-// }
-export default function willBuiltTrashBoxPage() {
-	return <div>"作成中"</div>;
+import TrashBoxPage from "@/components/augs/TrashBoxPage";
+
+export default function Main() {
+	return <TrashBoxPage />;
 }
