@@ -1,30 +1,16 @@
 "use client";
 
-import { MemoForm } from "@/components/augs/TrashBoxPage/TrashedMemoForm";
+import TrashMenuComponents from "./componets";
 import { MainLoadingList } from "@/components/augs/MainPage/MainLoadingList";
 import { useCompDeleteRequestApi, useGetMemos, useReturnMemoRequestApi } from "@/modules/apiHooks/hooks";
 import { CompDeleteMutationVariables, MemoContents, ReturnMemoMutationVariables } from "@/types";
-import { Box, Button, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
+import { Box, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-
-import { ReturnDialog } from "./ReturnMemoDialog";
 import { LinkToMainPageButtom } from "@/components/core/LinkToMainPage";
-import { TrashBoxLeftTop } from "./TrashBoxLeftTop";
-import RestoreFromTrashIcon from "@mui/icons-material/RestoreFromTrash";
-import { TrashMenu } from "./TrashMenu";
 
 export default function main() {
-	const { getMemosData, getMemosError, getMemosIsPending, refetchMemosData } = useGetMemos();
-	const [open, setOpen] = React.useState(false);
-	// dialog
-	const handleClickOpen = () => {
-		setOpen(true);
-	};
-
-	const handleClose = () => {
-		setOpen(false);
-	};
+	const { getMemosData, getMemosIsPending, refetchMemosData } = useGetMemos();
 
 	const [selectedMemoIndex, setSelectedMemoIndex] = useState(0);
 
@@ -40,23 +26,9 @@ export default function main() {
 		handleFocus();
 	}, [selectedMemoIndex, getMemosData]);
 
-	// ゴミ捨てダイアログの挙動
-	const [selectedReturnMemoId, setSelectedReturnMemoId] = useState<number | null>(null);
-	const [isReturnDialogOpen, setReturnDialogOpen] = useState(false);
-	const [selectedReturnIndex, setSelectedReturnIndex] = useState<number | null>(null);
-	const handleReturnMemoDialogOpenClick = (index: number, id: number) => {
-		setReturnDialogOpen(true);
-		setSelectedReturnIndex(index);
-		setSelectedReturnMemoId(id);
-	};
-	const handleReturnMemoDialogClose = () => {
-		setReturnDialogOpen(false);
-		setSelectedReturnIndex(null);
-		setSelectedReturnMemoId(null);
-	};
-
+	// 完全削除の挙動
 	const { mutationDeleteCompDelete } = useCompDeleteRequestApi();
-	const onSubmitCompDelete = (deleteBody: CompDeleteMutationVariables) => {
+	const onSubmitCompDeleteMemo = (deleteBody: CompDeleteMutationVariables) => {
 		mutationDeleteCompDelete.mutate(deleteBody, {
 			onSuccess: () => {
 				// データの再取得や状態の更新処理をここに記述
@@ -76,20 +48,8 @@ export default function main() {
 		});
 	};
 
-	const selectedReturnMemosArrayFilter = getMemosData
-		? getMemosData.filter((memo: MemoContents) => memo.id === selectedReturnMemoId)
-		: [];
-
 	return (
 		<Grid container spacing={0.5} marginTop={8}>
-			<ReturnDialog
-				open={isReturnDialogOpen}
-				handleClose={handleReturnMemoDialogClose}
-				handlePutReturnMemo={onSubmitPutReturnMemo}
-				id={selectedReturnMemoId}
-				title={selectedReturnMemosArrayFilter.length > 0 ? selectedReturnMemosArrayFilter[0].title : ""}
-				content={selectedReturnMemosArrayFilter.length > 0 ? selectedReturnMemosArrayFilter[0].content : ""}
-			/>
 			{/* 左のフレーム */}
 			<Grid item xs={3.5}>
 				<Grid>
@@ -100,7 +60,7 @@ export default function main() {
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					> */}
-					<TrashBoxLeftTop />
+					<TrashMenuComponents.TrashBoxLeftTop />
 					{/* </Paper> */}
 				</Grid>
 				{/* 左中段　メモリスト */}
@@ -127,26 +87,17 @@ export default function main() {
 													onClick={() => {
 														setSelectedMemoIndex(index);
 													}}
-													sx={{ backgroundColor: index === selectedReturnIndex ? "skyblue" : undefined }}
-													selected={selectedMemoIndex === index && selectedReturnIndex === null}
+													selected={selectedMemoIndex === index}
 												>
 													<ListItemText primary={memo.title} />
 												</ListItemButton>
-												<Button
-													// color={index === selectedDeleteIndex ? "error" : undefined}
-													onClick={(e) => {
-														e.stopPropagation();
-														handleReturnMemoDialogOpenClick(index, memo.id);
-													}}
-												>
-													<RestoreFromTrashIcon color={index === selectedReturnIndex ? "info" : undefined} />
-												</Button>
-												<TrashMenu
+												{/* メニューボタン */}
+												<TrashMenuComponents.TrashMenu
 													id={memo.id}
 													title={memo.title}
 													content={memo.content}
 													handlePutReturnMemo={onSubmitPutReturnMemo}
-													handleCompDelteMemo={onSubmitCompDelete}
+													handleCompDeleteMemo={onSubmitCompDeleteMemo}
 												/>
 											</ListItem>
 										);
@@ -181,7 +132,7 @@ export default function main() {
 						}}
 					>
 						{getMemosIsPending || !getMemosData ? undefined : (
-							<MemoForm
+							<TrashMenuComponents.MemoForm
 								content={getMemosData[selectedMemoIndex].content}
 								title={getMemosData[selectedMemoIndex].title}
 								ref={inputRef}

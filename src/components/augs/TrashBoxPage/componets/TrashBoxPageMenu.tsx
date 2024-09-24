@@ -1,5 +1,4 @@
 import * as React from "react";
-import Paper from "@mui/material/Paper";
 import MenuList from "@mui/material/MenuList";
 import MenuItem from "@mui/material/MenuItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -9,12 +8,13 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { Box, Button, Divider } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { CompDeleteMutationVariables, ReturnMemoMutationVariables } from "@/types";
+import { useState } from "react";
+import TrashMenuComponents from ".";
 
 type TrashBoxPageMenuprops = {
 	handleClose: () => void;
-	// open: boolean;
 	handlePutReturnMemo: (putBody: ReturnMemoMutationVariables) => void;
-	handleCompDelteMemo: (deleteBody: CompDeleteMutationVariables) => void;
+	handleCompDeleteMemo: (deleteBody: CompDeleteMutationVariables) => void;
 	id: number;
 	title: string;
 	content: string;
@@ -22,9 +22,8 @@ type TrashBoxPageMenuprops = {
 
 export const TrashBoxPageMenu: React.FC<TrashBoxPageMenuprops> = ({
 	handleClose,
-	// open,
 	handlePutReturnMemo,
-	handleCompDelteMemo,
+	handleCompDeleteMemo,
 	id,
 	title,
 	content
@@ -43,16 +42,23 @@ export const TrashBoxPageMenu: React.FC<TrashBoxPageMenuprops> = ({
 	};
 	console.log(id, title, content);
 
-	const deleteBody: CompDeleteMutationVariables = {
-		id
+	// 完全削除の注意ダイアログ
+	const [isCompDeleteDialogOpen, setCompDeleteDialogOpen] = useState(false);
+	const handleCompDeleteDialogOpenClick = () => {
+		setCompDeleteDialogOpen(true);
 	};
-	const handleCompDeleteButtonClick = () => {
-		handleCompDelteMemo(deleteBody);
-		handleClose();
+	const handleCompDeleteDialogClose = () => {
+		setCompDeleteDialogOpen(false);
 	};
 
 	return (
 		<Box sx={{ width: 320, maxWidth: "100%" }}>
+			<TrashMenuComponents.CompDeleteDialog
+				open={isCompDeleteDialogOpen}
+				handleClose={handleCompDeleteDialogClose}
+				handleCompDeleteMemo={handleCompDeleteMemo}
+				id={id}
+			/>
 			<MenuList>
 				<Button onClick={handleReturnButtonClick}>
 					<MenuItem>
@@ -63,7 +69,12 @@ export const TrashBoxPageMenu: React.FC<TrashBoxPageMenuprops> = ({
 					</MenuItem>
 				</Button>
 
-				<Button onClick={handleCompDeleteButtonClick}>
+				<Button
+					onClick={(e) => {
+						e.stopPropagation();
+						handleCompDeleteDialogOpenClick();
+					}}
+				>
 					<MenuItem>
 						<ListItemIcon>
 							<DeleteForeverIcon fontSize="small" />

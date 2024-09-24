@@ -4,17 +4,14 @@ import Dialog from "@mui/material/Dialog";
 
 type CompDeleteDialogprops = {
 	handleClose: () => void;
-	handleDeleteMemo: (deleteBody: CompDeleteMutationVariables) => void;
+	handleCompDeleteMemo: (deleteBody: CompDeleteMutationVariables) => void;
 	open: boolean;
 	id: number;
 };
 
-export const CompDeleteDialog: React.FC<CompDeleteDialogprops> = ({ handleClose, handleDeleteMemo, open, id }) => {
-	const deleteBody: CompDeleteMutationVariables = {
-		id
-	};
+export const CompDeleteDialog: React.FC<CompDeleteDialogprops> = ({ handleClose, handleCompDeleteMemo, open, id }) => {
 	const handleCompDeleteButtonClick = () => {
-		handleDeleteMemo(deleteBody);
+		handleCompDeleteMemo({ id });
 		handleClose();
 	};
 	return (

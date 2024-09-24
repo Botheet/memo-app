@@ -2,7 +2,7 @@ import * as React from "react";
 import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
-import { TrashBoxPageMenu } from "./TrashBoxPageMenu";
+import TrashMenuComponents from ".";
 import { CompDeleteMutationVariables, ReturnMemoMutationVariables } from "@/types";
 import { Box } from "@mui/material";
 
@@ -11,7 +11,7 @@ type TrashMenuProps = {
 	title: string;
 	content: string;
 	handlePutReturnMemo: (putBody: ReturnMemoMutationVariables) => void;
-	handleCompDelteMemo: (deleteBody: CompDeleteMutationVariables) => void;
+	handleCompDeleteMemo: (deleteBody: CompDeleteMutationVariables) => void;
 };
 
 export const TrashMenu: React.FC<TrashMenuProps> = ({
@@ -19,7 +19,7 @@ export const TrashMenu: React.FC<TrashMenuProps> = ({
 	title,
 	content,
 	handlePutReturnMemo,
-	handleCompDelteMemo
+	handleCompDeleteMemo
 }) => {
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
@@ -50,13 +50,13 @@ export const TrashMenu: React.FC<TrashMenuProps> = ({
 					"aria-labelledby": "basic-button"
 				}}
 			>
-				<TrashBoxPageMenu
+				<TrashMenuComponents.TrashBoxPageMenu
 					handleClose={handleClose}
 					id={id}
 					title={title}
 					content={content}
 					handlePutReturnMemo={handlePutReturnMemo}
-					handleCompDelteMemo={handleCompDelteMemo}
+					handleCompDeleteMemo={handleCompDeleteMemo}
 				/>
 			</Menu>
 		</Box>
