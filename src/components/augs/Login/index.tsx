@@ -1,12 +1,11 @@
 "use client";
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
-import { LoginFormCard } from "./LoginCard";
-import { useRecoilValue } from "recoil";
-import { test } from "@/globalState/Atom/test";
+import AuthButton from "./AuthButton";
+
+// import { LoginFormCard } from "./LoginCard";
 
 export const Login = () => {
-	const ex = useRecoilValue(test);
 	return (
 		<Box
 			pt={14}
@@ -16,11 +15,10 @@ export const Login = () => {
 				backgroundSize: "cover"
 			}}
 		>
-			<Typography variant="h4" color={"white"} textAlign={"center"}>
-				{ex}
-			</Typography>
+			<Typography variant="h4" color={"white"} textAlign={"center"}></Typography>
 			<Box display="flex" justifyContent={"center"}>
-				<LoginFormCard />
+				<AuthButton />
+				{/* <LoginFormCard /> */}
 			</Box>
 		</Box>
 	);

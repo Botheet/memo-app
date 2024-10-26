@@ -1,7 +1,7 @@
 "use client";
 
-import TrashMenuComponents from "./componets";
-import { MainLoadingList } from "@/components/augs/MainPage/MainLoadingList";
+import TrashMenuComponents from "./components_TBP";
+import { MainLoadingList } from "@/components/augs/MainPage/components_MP/MainLoadingList";
 import { useCompDeleteRequestApi, useGetMemos, useReturnMemoRequestApi } from "@/modules/apiHooks/hooks";
 import { CompDeleteMutationVariables, MemoContents, ReturnMemoMutationVariables } from "@/types";
 import { Box, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
@@ -53,13 +53,6 @@ export default function main() {
 			{/* 左のフレーム */}
 			<Grid item xs={3.5}>
 				<Grid>
-					{/* <Paper
-						sx={{
-							height: "auto",
-							minHeight: "80px",
-							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
-						}}
-					> */}
 					<TrashMenuComponents.TrashBoxLeftTop />
 					{/* </Paper> */}
 				</Grid>

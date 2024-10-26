@@ -6,7 +6,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { apiClient } from "@/libs/apiClient";
+import { apiClient } from "@/utils/supabase/apiClient";
 
 export const AccountCreate = () => {
 	const schema = z

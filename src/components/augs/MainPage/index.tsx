@@ -1,8 +1,8 @@
 "use client";
 
-import { MainLeftTop } from "@/components/augs/MainPage/MainLeftTop";
-import { MemoForm } from "@/components/augs/MainPage/MemoForm";
-import { MainLoadingList } from "@/components/augs/MainPage/MainLoadingList";
+import { MainLeftTop } from "@/components/augs/MainPage/components_MP/MainLeftTop";
+import { MemoForm } from "@/components/augs/MainPage/components_MP/MemoForm";
+import { MainLoadingList } from "@/components/augs/MainPage/components_MP/MainLoadingList";
 import { TrashBoxButtom } from "@/components/core/TrashBoxButtom";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import { useGetMemos, usePostNewMemoApi, usePutTrashMemoRequestApi } from "@/modules/apiHooks/hooks";
@@ -10,42 +10,47 @@ import { MemoContents, PostNewMemoFormBody, TrashMemoMutationVariables } from "@
 import { Box, Button, Grid, List, ListItem, ListItemButton, ListItemText, Paper } from "@mui/material";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
-import { AlertDialog } from "./AlertDialog";
-import { DeleteDialog } from "./DeleteDialog";
+import { AlertDialog } from "./components_MP/AlertDialog";
+import { DeleteDialog } from "./components_MP/DeleteDialog";
 
 export default function main() {
+	// カスタムフックuseGetMemosを使用してメモデータを取得し、状態やエラー、リフレッシュ機能を取得
 	const { getMemosData, getMemosError, getMemosIsPending, refetchMemosData } = useGetMemos();
 
+	//●ダイアログの基本動作に関する部分●
+	// ダイアログの開閉状態を管理するステート
 	const [open, setOpen] = React.useState(false);
-
-	// dialog
+	// ダイアログを開く処理
 	const handleClickOpen = () => {
 		setOpen(true);
 	};
-
+	// ダイアログを閉じる処理
 	const handleClose = () => {
 		setOpen(false);
 	};
 
+	// 現在選択されているメモのインデックスを管理するステート
 	const [selectedMemoIndex, setSelectedMemoIndex] = useState(0);
 
-	// 編集中であることを管理するステートを追加
+	// 新しいメモを作成しているかどうかを管理するステート
 	const [newMemoCreate, setNewMemoCreate] = useState(false);
 
+	// テキスト入力のリファレンスを設定（直接DOM要素にアクセスするため）
 	const inputRef = useRef<HTMLInputElement>(null);
 
+	// メモコンテントの入力フォームにフォーカスを当てる処理
 	const handleFocus = () => {
 		if (inputRef.current) {
 			inputRef.current.focus();
 		}
 	};
 
+	// 選択されたメモが変わるか、メモデータが取得される度にフォーカスを再設定
 	useEffect(() => {
 		handleFocus();
-	}, [selectedMemoIndex, getMemosData]);
+	}, [selectedMemoIndex, getMemosData]); // 依存配列には選択したメモのインデックスと取得したメモデータ
 
 	// ゴミ捨てダイアログの挙動
-
 	const [selectedTrashMemoId, setSelectedTrashMemoId] = useState<number | null>(null);
 	const [isDeleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [selectedDeleteIndex, setSelectedDeleteIndex] = useState<number | null>(null);
@@ -83,7 +88,6 @@ export default function main() {
 	const handleExitWithoutSavingClick = () => {
 		setNewMemoCreate(false);
 	};
-
 	const handlePrevMemoListClick = () => {
 		if (newMemoCreate) {
 			handleClickOpen();
@@ -115,16 +119,8 @@ export default function main() {
 			{/* 左のフレーム */}
 			<Grid item xs={3.5}>
 				<Grid>
-					{/* <Paper
-						sx={{
-							height: "auto",
-							minHeight: "80px",
-							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
-						}}
-					> */}
 					{/* 左上（新規・削除） */}
 					<MainLeftTop handleCreateButtonClick={handleCreateButtonClick} />
-					{/* </Paper> */}
 				</Grid>
 				{/* 左中段　メモリスト */}
 				<Grid>

@@ -24,6 +24,14 @@ export type PostNewMemoFormBody = {
 	complete_flag?: boolean;
 };
 
+//メモを保存/新規保存するための情報を定義
+export type SavedMemos = {
+	id?: string;
+	title: string;
+	content: string;
+	complete_flag: boolean;
+};
+
 // ゴミ箱に移動するためのリクエストデータとIDを含む型を定義
 export type TrashMemoMutationVariables = {
 	id: number;
