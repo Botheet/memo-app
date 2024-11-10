@@ -2,6 +2,7 @@
 import { Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import AuthButton from "./AuthButton";
+import { LoginFormCard } from "./LoginCard";
 
 // import { LoginFormCard } from "./LoginCard";
 
@@ -17,8 +18,8 @@ export const Login = () => {
 		>
 			<Typography variant="h4" color={"white"} textAlign={"center"}></Typography>
 			<Box display="flex" justifyContent={"center"}>
-				<AuthButton />
-				{/* <LoginFormCard /> */}
+				{/* <AuthButton /> */}
+				<LoginFormCard />
 			</Box>
 		</Box>
 	);

@@ -16,6 +16,8 @@ import { DeleteDialog } from "./components_MP/DeleteDialog";
 export default function main() {
 	// カスタムフックuseGetMemosを使用してメモデータを取得し、状態やエラー、リフレッシュ機能を取得
 	const { getMemosData, getMemosError, getMemosIsPending, refetchMemosData } = useGetMemos();
+	// データの内容を確認
+	console.log(getMemosData);
 
 	//●ダイアログの基本動作に関する部分●
 	// ダイアログの開閉状態を管理するステート
@@ -76,9 +78,9 @@ export default function main() {
 		});
 	};
 
-	const selectedTrashMemosArrayFilter = getMemosData
-		? getMemosData.filter((memo: MemoContents) => memo.id === selectedTrashMemoId)
-		: [];
+	// const selectedTrashMemosArrayFilter = getMemosData
+	// 	? getMemosData.filter((memo: MemoContents) => memo.id === selectedTrashMemoId)
+	// 	: [];
 
 	// 新規作成ボタンをクリックした際の挙動。本文にフォーカスする機能付き。
 	const handleCreateButtonClick = () => {
@@ -104,18 +106,21 @@ export default function main() {
 		mutationPostNewMemo.mutate(postBody);
 	};
 
+	if (getMemosIsPending) return <p>Loading...</p>; // ローディング表示
+	if (getMemosError) return <p>Error: {getMemosError.message}</p>; // エラー表示
+
 	return (
 		<Grid container spacing={0.5} marginTop={8}>
 			{/* 新規メモを保存せずに他のメモへ移動しようとした場合のアラート（他ボタンへは未対応） */}
 			<AlertDialog open={open} handleClose={handleClose} handleExitWithoutSavingClick={handleExitWithoutSavingClick} />
-			<DeleteDialog
+			{/* <DeleteDialog
 				open={isDeleteDialogOpen}
 				handleClose={handleTrashMemoDialogClose}
 				handlePutTrashMemo={onSubmitPutTrashMemo}
 				id={selectedTrashMemoId}
 				title={selectedTrashMemosArrayFilter.length > 0 ? selectedTrashMemosArrayFilter[0].title : ""}
 				content={selectedTrashMemosArrayFilter.length > 0 ? selectedTrashMemosArrayFilter[0].content : ""}
-			/>
+			/> */}
 			{/* 左のフレーム */}
 			<Grid item xs={3.5}>
 				<Grid>
@@ -144,8 +149,10 @@ export default function main() {
 										</ListItemButton>
 									</ListItem>
 								)}
-								{getMemosData
-									.filter((memo: MemoContents) => !memo.complete_flag)
+
+								{getMemosData.data
+									// .filter((memo: MemoContents) => !memo.complete_flag)
+
 									.map((memo: MemoContents, index: number) => {
 										return (
 											<ListItem key={memo.id} disablePadding sx={{ display: "flex", flexDirection: "row" }}>
@@ -159,15 +166,15 @@ export default function main() {
 												>
 													<ListItemText primary={memo.title} />
 												</ListItemButton>
-												<Button
-													// color={index === selectedDeleteIndex ? "error" : undefined}
-													onClick={(e) => {
-														e.stopPropagation();
-														handleTrashMemoDialogOpenClick(index, memo.id);
-													}}
-												>
-													<DeleteOutlineIcon color={index === selectedDeleteIndex ? "error" : undefined} />
-												</Button>
+												{/* <Button
+														// color={index === selectedDeleteIndex ? "error" : undefined}
+														onClick={(e) => {
+															e.stopPropagation();
+															handleTrashMemoDialogOpenClick(index, memo.id);
+														}}
+													>
+														<DeleteOutlineIcon color={index === selectedDeleteIndex ? "error" : undefined} />
+													</Button> */}
 											</ListItem>
 										);
 									})}
@@ -202,14 +209,14 @@ export default function main() {
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
-						{getMemosIsPending || !getMemosData ? undefined : (
+						{/* {getMemosIsPending || !getMemosData ? undefined : (
 							<MemoForm
 								content={!newMemoCreate ? getMemosData[selectedMemoIndex].content : ""}
 								title={!newMemoCreate ? getMemosData[selectedMemoIndex].title : ""}
 								ref={inputRef}
 								onSubmitPostNewMemo={onSubmitPostNewMemo}
 							/>
-						)}
+						)} */}
 					</Paper>
 				</Grid>
 			</Grid>
