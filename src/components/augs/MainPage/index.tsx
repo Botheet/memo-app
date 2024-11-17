@@ -166,15 +166,15 @@ export default function main() {
 												>
 													<ListItemText primary={memo.title} />
 												</ListItemButton>
-												{/* <Button
-														// color={index === selectedDeleteIndex ? "error" : undefined}
-														onClick={(e) => {
-															e.stopPropagation();
-															handleTrashMemoDialogOpenClick(index, memo.id);
-														}}
-													>
-														<DeleteOutlineIcon color={index === selectedDeleteIndex ? "error" : undefined} />
-													</Button> */}
+												<Button
+													// color={index === selectedDeleteIndex ? "error" : undefined}
+													onClick={(e) => {
+														e.stopPropagation();
+														handleTrashMemoDialogOpenClick(index, memo.id);
+													}}
+												>
+													<DeleteOutlineIcon color={index === selectedDeleteIndex ? "error" : undefined} />
+												</Button>
 											</ListItem>
 										);
 									})}
@@ -209,14 +209,14 @@ export default function main() {
 							backgroundColor: (theme) => (theme.palette.mode === "dark" ? "#1A2027" : "#fff")
 						}}
 					>
-						{/* {getMemosIsPending || !getMemosData ? undefined : (
+						{getMemosIsPending || !getMemosData ? undefined : (
 							<MemoForm
-								content={!newMemoCreate ? getMemosData[selectedMemoIndex].content : ""}
-								title={!newMemoCreate ? getMemosData[selectedMemoIndex].title : ""}
+								// content={!newMemoCreate ? getMemosData[selectedMemoIndex].content : ""}
+								// title={!newMemoCreate ? getMemosData[selectedMemoIndex].title : ""}
 								ref={inputRef}
 								onSubmitPostNewMemo={onSubmitPostNewMemo}
 							/>
-						)} */}
+						)}
 					</Paper>
 				</Grid>
 			</Grid>

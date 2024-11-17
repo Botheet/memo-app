@@ -50,7 +50,7 @@ export const useGetMemos = () => {
 		if (error) {
 			throw new Error(error.message);
 		}
-
+		console.log(data);
 		return { data: memos };
 	};
 
@@ -62,7 +62,7 @@ export const useGetMemos = () => {
 	return {
 		getMemosData: data,
 		getMemosError: error,
-		getMemosIsPending: isPending, // 正しいプロパティ名に変更
+		getMemosIsPending: isPending,
 		refetchMemosData: refetch
 	};
 };
@@ -86,8 +86,8 @@ export const useGetMemos = () => {
 // バックコォート``に囲いテンプレートにし、${id}と記述することにより対応することが可能
 export const useGetOneMemo = (id: number) => {
 	const getOneMemo = async () => {
-		const response = await supabase.from("memos");
-		return response?.select(`${id}`);
+		const response = await supabase.from("memos").select("`${id}`");
+		// return response?.select(`${id}`);
 	};
 	const { isPending, error, data } = useQuery({
 		queryKey: ["getOneMemoApiData"],
