@@ -26,6 +26,11 @@ export default function main() {
 		handleFocus();
 	}, [selectedMemoIndex, getMemosData]);
 
+	//complete_flagがtrueになっているメモをfilterringするロジック
+	const completedFlagIsTrueMemosData = getMemosData
+		? getMemosData.data.filter((memo: MemoContents) => memo.complete_flag)
+		: [];
+
 	// 完全削除の挙動
 	const { mutationDeleteCompDelete } = useCompDeleteRequestApi();
 	const onSubmitCompDeleteMemo = (deleteBody: CompDeleteMutationVariables) => {
@@ -71,30 +76,28 @@ export default function main() {
 							}}
 						>
 							<List>
-								{getMemosData
-									.filter((memo: MemoContents) => memo.complete_flag)
-									.map((memo: MemoContents, index: number) => {
-										return (
-											<ListItem key={memo.id} disablePadding sx={{ display: "flex", flexDirection: "row" }}>
-												<ListItemButton
-													onClick={() => {
-														setSelectedMemoIndex(index);
-													}}
-													selected={selectedMemoIndex === index}
-												>
-													<ListItemText primary={memo.title} />
-												</ListItemButton>
-												{/* メニューボタン */}
-												<TrashMenuComponents.TrashMenu
-													id={memo.id}
-													title={memo.title}
-													content={memo.content}
-													handlePutReturnMemo={onSubmitPutReturnMemo}
-													handleCompDeleteMemo={onSubmitCompDeleteMemo}
-												/>
-											</ListItem>
-										);
-									})}
+								{completedFlagIsTrueMemosData.map((memo: MemoContents, index: number) => {
+									return (
+										<ListItem key={memo.id} disablePadding sx={{ display: "flex", flexDirection: "row" }}>
+											<ListItemButton
+												onClick={() => {
+													setSelectedMemoIndex(index);
+												}}
+												selected={selectedMemoIndex === index}
+											>
+												<ListItemText primary={memo.title} />
+											</ListItemButton>
+											{/* メニューボタン */}
+											<TrashMenuComponents.TrashMenu
+												id={memo.id}
+												title={memo.title}
+												content={memo.content}
+												handlePutReturnMemo={onSubmitPutReturnMemo}
+												handleCompDeleteMemo={onSubmitCompDeleteMemo}
+											/>
+										</ListItem>
+									);
+								})}
 							</List>
 						</Paper>
 					)}
@@ -126,8 +129,14 @@ export default function main() {
 					>
 						{getMemosIsPending || !getMemosData ? undefined : (
 							<TrashMenuComponents.MemoForm
-								content={getMemosData[selectedMemoIndex].content}
-								title={getMemosData[selectedMemoIndex].title}
+								content={
+									completedFlagIsTrueMemosData.length !== 0
+										? completedFlagIsTrueMemosData[selectedMemoIndex].content
+										: ""
+								}
+								title={
+									completedFlagIsTrueMemosData.length !== 0 ? completedFlagIsTrueMemosData[selectedMemoIndex].title : ""
+								}
 								ref={inputRef}
 							/>
 						)}

@@ -78,9 +78,14 @@ export default function main() {
 		});
 	};
 
-	// const selectedTrashMemosArrayFilter = getMemosData
-	// 	? getMemosData.filter((memo: MemoContents) => memo.id === selectedTrashMemoId)
-	// 	: [];
+	const selectedTrashMemosArrayFilter = getMemosData
+		? getMemosData.data.filter((memo: MemoContents) => memo.id === selectedTrashMemoId)
+		: [];
+
+	//complete_flagがfalseになっているメモをfilterringするロジック
+	const completedFlagIsFalseMemosData = getMemosData
+		? getMemosData.data.filter((memo: MemoContents) => !memo.complete_flag)
+		: [];
 
 	// 新規作成ボタンをクリックした際の挙動。本文にフォーカスする機能付き。
 	const handleCreateButtonClick = () => {
@@ -113,14 +118,14 @@ export default function main() {
 		<Grid container spacing={0.5} marginTop={8}>
 			{/* 新規メモを保存せずに他のメモへ移動しようとした場合のアラート（他ボタンへは未対応） */}
 			<AlertDialog open={open} handleClose={handleClose} handleExitWithoutSavingClick={handleExitWithoutSavingClick} />
-			{/* <DeleteDialog
+			<DeleteDialog
 				open={isDeleteDialogOpen}
 				handleClose={handleTrashMemoDialogClose}
 				handlePutTrashMemo={onSubmitPutTrashMemo}
 				id={selectedTrashMemoId}
 				title={selectedTrashMemosArrayFilter.length > 0 ? selectedTrashMemosArrayFilter[0].title : ""}
 				content={selectedTrashMemosArrayFilter.length > 0 ? selectedTrashMemosArrayFilter[0].content : ""}
-			/> */}
+			/>
 			{/* 左のフレーム */}
 			<Grid item xs={3.5}>
 				<Grid>
@@ -150,34 +155,31 @@ export default function main() {
 									</ListItem>
 								)}
 
-								{getMemosData.data
-									// .filter((memo: MemoContents) => !memo.complete_flag)
-
-									.map((memo: MemoContents, index: number) => {
-										return (
-											<ListItem key={memo.id} disablePadding sx={{ display: "flex", flexDirection: "row" }}>
-												<ListItemButton
-													onClick={() => {
-														handlePrevMemoListClick(); //ダイアログで注意→このファルスをまとめた関数を作ってここにいれる
-														setSelectedMemoIndex(index);
-													}}
-													sx={{ backgroundColor: index === selectedDeleteIndex ? "pink" : undefined }}
-													selected={selectedMemoIndex === index && selectedDeleteIndex === null && !newMemoCreate}
-												>
-													<ListItemText primary={memo.title} />
-												</ListItemButton>
-												<Button
-													// color={index === selectedDeleteIndex ? "error" : undefined}
-													onClick={(e) => {
-														e.stopPropagation();
-														handleTrashMemoDialogOpenClick(index, memo.id);
-													}}
-												>
-													<DeleteOutlineIcon color={index === selectedDeleteIndex ? "error" : undefined} />
-												</Button>
-											</ListItem>
-										);
-									})}
+								{completedFlagIsFalseMemosData.map((memo: MemoContents, index: number) => {
+									return (
+										<ListItem key={memo.id} disablePadding sx={{ display: "flex", flexDirection: "row" }}>
+											<ListItemButton
+												onClick={() => {
+													handlePrevMemoListClick(); //ダイアログで注意→このファルスをまとめた関数を作ってここにいれる
+													setSelectedMemoIndex(index);
+												}}
+												sx={{ backgroundColor: index === selectedDeleteIndex ? "pink" : undefined }}
+												selected={selectedMemoIndex === index && selectedDeleteIndex === null && !newMemoCreate}
+											>
+												<ListItemText primary={memo.title} />
+											</ListItemButton>
+											<Button
+												// color={index === selectedDeleteIndex ? "error" : undefined}
+												onClick={(e) => {
+													e.stopPropagation();
+													handleTrashMemoDialogOpenClick(index, memo.id);
+												}}
+											>
+												<DeleteOutlineIcon color={index === selectedDeleteIndex ? "error" : undefined} />
+											</Button>
+										</ListItem>
+									);
+								})}
 							</List>
 						</Paper>
 					)}
@@ -211,8 +213,20 @@ export default function main() {
 					>
 						{getMemosIsPending || !getMemosData ? undefined : (
 							<MemoForm
-								// content={!newMemoCreate ? getMemosData[selectedMemoIndex].content : ""}
-								// title={!newMemoCreate ? getMemosData[selectedMemoIndex].title : ""}
+								content={
+									!newMemoCreate
+										? completedFlagIsFalseMemosData.length !== 0
+											? completedFlagIsFalseMemosData[selectedMemoIndex].content
+											: ""
+										: ""
+								}
+								title={
+									!newMemoCreate
+										? completedFlagIsFalseMemosData.length !== 0
+											? completedFlagIsFalseMemosData[selectedMemoIndex].title
+											: ""
+										: ""
+								}
 								ref={inputRef}
 								onSubmitPostNewMemo={onSubmitPostNewMemo}
 							/>

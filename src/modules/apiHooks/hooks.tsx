@@ -67,26 +67,13 @@ export const useGetMemos = () => {
 	};
 };
 
-//メモ一覧取得のAPI(簡易)
-// export const useGetMemos = () => {
-// 	const getMemos = async () => {
-// 		const response = await apiClient.get("/api/memos/");
-// 		return response?.data;
-// 	} //respons? レスポンスがオブジェクトじゃない場合、後ろの.dataがヌルやアンディファインドの場合、評価を止める
-// 	const { isPending, error, data, refetch } = useQuery({
-// 		queryKey: ["getMemosApiData"],
-// 		queryFn: getMemos
-// 	});
-
-// 	return { getMemosData: data, getMemosError: error, getMemosIsPending: isPending, refetchMemosData: refetch };
-// };
-
 //メモ本文取得API,`/api/memos/${id}/`の${id}/`は動的に変わる
+
 // （""のままだとAPIに送るのはidという文字になってしまいエラーが出る
 // バックコォート``に囲いテンプレートにし、${id}と記述することにより対応することが可能
 export const useGetOneMemo = (id: number) => {
 	const getOneMemo = async () => {
-		const response = await supabase.from("memos").select("`${id}`");
+		const response = await supabase.from("memos").select(`${id}`);
 		// return response?.select(`${id}`);
 	};
 	const { isPending, error, data } = useQuery({
